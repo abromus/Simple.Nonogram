@@ -33,21 +33,18 @@ namespace Simple.Nonogram
         {
             if (_board.transform.childCount != 0)
             {
+                int cellIndex = 1;
                 int firstIndex = 0;
-                int lastIndex = _board.transform.childCount - 1;
+                int lastIndex = _board.transform.GetChild(cellIndex).childCount - 1;
 
-                Transform firstChild = _board.transform.GetChild(firstIndex);
-                Transform lastChild = _board.transform.GetChild(lastIndex);
+                Transform firstChild = _board.transform.GetChild(cellIndex).GetChild(firstIndex);
+                Transform lastChild = _board.transform.GetChild(cellIndex).GetChild(lastIndex);
                 Vector3 sizeCell = firstChild.GetComponent<SpriteRenderer>().bounds.size;
 
                 _maxBoardPosition = _board.transform.position;
                 _minBoardPosition = new Vector3(_maxBoardPosition.x - (lastChild.position.x - firstChild.position.x + sizeCell.x) + _mask.bounds.size.x,
                                                 _maxBoardPosition.y + (firstChild.position.y - lastChild.position.y + sizeCell.y) - _mask.bounds.size.y,
                                                 _maxBoardPosition.z);
-
-                /******************/
-                firstChild.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
-                lastChild.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
             }
         }
 

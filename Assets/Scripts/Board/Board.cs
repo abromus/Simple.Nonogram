@@ -4,7 +4,7 @@ using System.IO;
 
 using UnityEngine;
 
-namespace Simple.Nonogram
+namespace Simple.Nonogram.Core
 {
     public class Board
     {

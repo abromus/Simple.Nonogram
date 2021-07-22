@@ -26,7 +26,7 @@ namespace Simple.Nonogram
             {
                 _startMovePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
 
-                if(_board.transform.childCount != 0)
+                if (_board.transform.childCount != 0)
                 {
                     int lastChildIndex = _board.transform.childCount - 1;
                     _lastChildPosition = _board.transform.GetChild(lastChildIndex).position;
