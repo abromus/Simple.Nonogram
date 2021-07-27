@@ -6,37 +6,49 @@ namespace Simple.Nonogram
     public class CameraMovement : MonoBehaviour
     {
         [SerializeField] private BoardView _board;
-        [SerializeField] [Range(1, 20)] private float _horizontalSpeed = 1.0f;
-        [SerializeField] [Range(1, 20)] private float _verticalSpeed = 1.0f;
+        [SerializeField] [Range(0, 1)] private float _horizontalSpeed = 0.05f;
+        [SerializeField] [Range(0, 1)] private float _verticalSpeed = 0.05f;
 
         private Camera _camera;
+        private Bounds _bounds;
         private Vector3 _startMovePosition;
-        private Vector3 _startCameraPosition;
-        private Vector3 _lastChildPosition;
 
         private void Start()
         {
             _camera = GetComponent<Camera>();
-            _startCameraPosition = _camera.transform.position;
+
+            CalculateBounds();
+
+            if (_bounds.min.x < _board.Bounds.min.x && _bounds.max.x > _board.Bounds.max.x && _bounds.min.y == _board.Bounds.min.y)
+                transform.position = new Vector3(_bounds.max.x, _bounds.min.y, _camera.transform.position.z);
+            else if (_bounds.min.x < _board.Bounds.min.x && _bounds.max.x > _board.Bounds.max.x && _bounds.min.y > _board.Bounds.min.y)
+                transform.position = new Vector3(_bounds.max.x, _bounds.max.y, _camera.transform.position.z);
+            else if (_bounds.min.x > _board.Bounds.min.x && _bounds.max.x < _board.Bounds.max.x && _bounds.min.y == _board.Bounds.min.y)
+                transform.position = new Vector3(_bounds.max.x, _bounds.min.y, _camera.transform.position.z);
+            else if (_bounds.min.x > _board.Bounds.min.x && _bounds.max.x < _board.Bounds.max.x)
+                transform.position = new Vector3(_bounds.min.x, _bounds.max.y, _camera.transform.position.z);
+        }
+
+        private void CalculateBounds()
+        {
+            Vector2 bottomLeft = _camera.ScreenToWorldPoint(new Vector2(0, 0));
+            Vector2 topRight = _camera.ScreenToWorldPoint(new Vector2(_camera.pixelWidth, _camera.pixelHeight));
+            float x1 = _board.Bounds.min.x - bottomLeft.x - _board.SpriteSize.Width;
+            float x2 = _board.Bounds.max.x - topRight.x + _board.SpriteSize.Width;
+            float y1 = _board.Bounds.min.y - bottomLeft.y - _board.SpriteSize.Height;
+            float y2 = _board.Bounds.max.y - topRight.y + _board.SpriteSize.Height;
+            float z = _camera.transform.position.z;
+
+            _bounds.min = new Vector3(x1 < x2 ? x1 : x2, y1 < y2 ? y1 : y2, z);
+            _bounds.max = new Vector3(x2 > x1 ? x2 : x1, y2 > y1 ? y2 : y1, z);
         }
 
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
-            {
                 _startMovePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-
-                if (_board.transform.childCount != 0)
-                {
-                    int lastChildIndex = _board.transform.childCount - 1;
-                    _lastChildPosition = _board.transform.GetChild(lastChildIndex).position;
-
-                }
-            }
             else if (Input.GetMouseButton(0))
-            {
                 Move();
-            }
         }
 
         private void Move()
@@ -44,12 +56,8 @@ namespace Simple.Nonogram
             float positionX = _camera.ScreenToWorldPoint(Input.mousePosition).x - _startMovePosition.x;
             float positionY = _camera.ScreenToWorldPoint(Input.mousePosition).y - _startMovePosition.y;
 
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x - positionX * _horizontalSpeed,
-                                                        _startCameraPosition.x,
-                                                        _lastChildPosition.x - _startCameraPosition.x),
-                                             Mathf.Clamp(transform.position.y - positionY * _verticalSpeed,
-                                                        _startCameraPosition.y,
-                                                        _lastChildPosition.y - _startCameraPosition.y),
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x - positionX * _horizontalSpeed, _bounds.min.x, _bounds.max.x),
+                                             Mathf.Clamp(transform.position.y - positionY * _verticalSpeed, _bounds.min.y, _bounds.max.y),
                                              transform.position.z);
         }
     }
