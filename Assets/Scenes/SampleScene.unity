@@ -175,6 +175,7 @@ MonoBehaviour:
   _numberCellsContainer: {fileID: 995310518}
   _blank: {fileID: 3118169986250858628, guid: b4138aeeecbd3c34c97afc952cc5aa28, type: 3}
   _marked: {fileID: 2727827721380933150, guid: b4138aeeecbd3c34c97afc952cc5aa28, type: 3}
+  _empty: {fileID: 0}
 --- !u!1 &298836692
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-﻿namespace Simple.Nonogram
+﻿namespace Simple.Nonogram.Core
 {
     public struct SizeF
     {

@@ -17,10 +17,12 @@ namespace Simple.Nonogram
         [SerializeField] private Transform _numberCellsContainer;
         [SerializeField] private Sprite _blank;
         [SerializeField] private Sprite _marked;
+        [SerializeField] private Sprite _empty;
 
         private Board _board;
         private NumberBoard _numberBoard;
         private Cell[,] _cells;
+        private Core.Cell[,] _userBoard;
         private NumberCell[,] _topNumberCells;
         private NumberCell[,] _leftNumberCells;
         private GameObject _topNumberCellsContainer;
@@ -38,6 +40,7 @@ namespace Simple.Nonogram
         {
             _board = new Board(_pathToFile);
             _numberBoard = new NumberBoard(_board);
+            _userBoard = new Core.Cell[_board.Grid.GetLength(_heightDimension), _board.Grid.GetLength(_widthDimension)];
 
             _topNumberCellsContainer = new GameObject(nameof(_topNumberCellsContainer));
             _topNumberCellsContainer.transform.parent = _numberCellsContainer;
@@ -58,6 +61,7 @@ namespace Simple.Nonogram
         private void Init()
         {
             CalculateSpriteSize();
+            InitUserBoard();
             InitBoard();
             InitTopNumberCells();
             InitLeftNumberCells();
@@ -79,13 +83,25 @@ namespace Simple.Nonogram
             _spriteSize = new SizeF(widthSprite, heightSprite);
         }
 
+        private void InitUserBoard()
+        {
+            for (int i = 0; i < _userBoard.GetLength(_widthDimension); i++)
+                for (int j = 0; j < _userBoard.GetLength(_heightDimension); j++)
+                    _userBoard[i, j] = new Core.Cell(CellState.Blank);
+        }
+
         private void InitBoard()
         {
             FillArray(_cells, _cellPrefab, transform.position, Vector2.down, _cellsContainer);
 
             for (int i = 0; i < _cells.GetLength(_widthDimension); i++)
                 for (int j = 0; j < _cells.GetLength(_heightDimension); j++)
-                    _cells[i, j].GetComponent<SpriteRenderer>().sprite = _board.Grid[j, i].State == CellState.Blank ? _blank : _marked;
+                {
+                    //_cells[i, j].GetComponent<SpriteRenderer>().sprite = _board.Grid[j, i].State == CellState.Blank ? _blank : _marked;
+                    _cells[i, j].GetComponent<SpriteRenderer>().sprite = _blank;
+                    _cells[i, j].Clicked += OnClicked;
+                    _cells[i, j].Emptied += OnEmptied;
+                }
         }
 
         private void InitTopNumberCells()
@@ -149,6 +165,46 @@ namespace Simple.Nonogram
 
             _bounds.min = transform.GetChild(numberCellsContainerIndex).GetChild(leftNumberCellsContainerIndex).GetChild(leftCellIndex).position;
             _bounds.max = transform.GetChild(numberCellsContainerIndex).GetChild(topNumberCellsContainerIndex).GetChild(topCellIndex).position;
+        }
+
+        private void OnClicked(Vector3 position)
+        {
+            if (TryFindCell(position, out Vector2Int coordinate))
+            {
+                CellState state = _userBoard[coordinate.x, coordinate.y].State == CellState.Blank ? CellState.Marked : CellState.Blank;
+                Sprite stateView = _userBoard[coordinate.x, coordinate.y].State == CellState.Blank ? _marked : _blank;
+
+                _userBoard[coordinate.x, coordinate.y].SetState(state);
+                _cells[coordinate.x, coordinate.y].GetComponent<SpriteRenderer>().sprite = stateView;
+            }
+        }
+
+        private void OnEmptied(Vector3 position)
+        {
+            if (TryFindCell(position, out Vector2Int coordinate))
+            {
+                CellState state = _userBoard[coordinate.x, coordinate.y].State == CellState.Blank ? CellState.Empty : CellState.Blank;
+                Sprite stateView = _userBoard[coordinate.x, coordinate.y].State == CellState.Blank ? _empty : _blank;
+
+                _userBoard[coordinate.x, coordinate.y].SetState(state);
+                _cells[coordinate.x, coordinate.y].GetComponent<SpriteRenderer>().sprite = stateView;
+            }
+        }
+
+        private bool TryFindCell(Vector3 position, out Vector2Int coordinate)
+        {
+            bool isFind = false;
+            coordinate = new Vector2Int(-1, -1);
+
+            for (int i = 0; i < _cells.GetLength(_widthDimension); i++)
+                for (int j = 0; j < _cells.GetLength(_heightDimension); j++)
+                    if (_cells[i, j].transform.position == position)
+                    {
+                        coordinate = new Vector2Int(i, j);
+                        isFind = true;
+                    }
+
+            return isFind;
         }
     }
 }

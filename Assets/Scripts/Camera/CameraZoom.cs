@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Simple.Nonogram
 {
@@ -12,17 +13,19 @@ namespace Simple.Nonogram
         private Camera _camera;
         private float _mouseScrollWheel;
 
+        private readonly string _mouseAxis = "Mouse ScrollWheel";
+
         private void Start()
         {
             _camera = GetComponent<Camera>();
+            _camera.gameObject.AddComponent<Physics2DRaycaster>();
         }
 
         void Update()
         {
-            _mouseScrollWheel = Input.GetAxis("Mouse ScrollWheel");
+            _mouseScrollWheel = Input.GetAxis(_mouseAxis);
 
-            if (_mouseScrollWheel != 0)
-                _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize + _mouseScrollWheel * _wheelSpeed * Time.deltaTime, _minSize, _maxSize);
+            _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize + _mouseScrollWheel * _wheelSpeed * Time.deltaTime, _minSize, _maxSize);
         }
     }
 }

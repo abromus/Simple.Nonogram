@@ -12,6 +12,7 @@ namespace Simple.Nonogram
         private Camera _camera;
         private Bounds _bounds;
         private Vector3 _startMovePosition;
+        private int _moveButton = 2;
 
         private void Start()
         {
@@ -45,9 +46,9 @@ namespace Simple.Nonogram
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(_moveButton))
                 _startMovePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-            else if (Input.GetMouseButton(0))
+            else if (Input.GetMouseButton(_moveButton))
                 Move();
         }
 
