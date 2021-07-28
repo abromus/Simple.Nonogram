@@ -24,7 +24,7 @@ namespace Simple.Nonogram
             else if (_bounds.min.x < _board.Bounds.min.x && _bounds.max.x > _board.Bounds.max.x && _bounds.min.y > _board.Bounds.min.y)
                 transform.position = new Vector3(_bounds.max.x, _bounds.max.y, _camera.transform.position.z);
             else if (_bounds.min.x > _board.Bounds.min.x && _bounds.max.x < _board.Bounds.max.x && _bounds.min.y == _board.Bounds.min.y)
-                transform.position = new Vector3(_bounds.max.x, _bounds.min.y, _camera.transform.position.z);
+                transform.position = new Vector3(_bounds.min.x, _bounds.min.y, _camera.transform.position.z);
             else if (_bounds.min.x > _board.Bounds.min.x && _bounds.max.x < _board.Bounds.max.x)
                 transform.position = new Vector3(_bounds.min.x, _bounds.max.y, _camera.transform.position.z);
         }
