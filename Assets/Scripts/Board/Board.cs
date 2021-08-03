@@ -8,20 +8,24 @@ namespace Simple.Nonogram.Core
 {
     public class Board
     {
-        public Cell[,] Grid { get; private set; }
-        public int Width { get; private set; }
-        public int Height { get; private set; }
+        private Cell[,] _cells;
+        private int _width;
+        private int _height;
+
+        public Cell[,] Cells => _cells;
+        public int Width => _width;
+        public int Height => _height;
 
         public Board(string pathToFile)
         {
-            //pathToFile = Application.dataPath + @"\Trash\Nonograms\1.txt";              //Äëÿ Windows
+            //pathToFile = Application.dataPath + @"\Trash\Nonograms\1.txt";            //Äëÿ Windows
             //path = "jar:file://" + Application.dataPath + "!/assets/";                //Äëÿ Android  
             InitializeBoard(Application.dataPath + pathToFile);
         }
 
         private void InitializeBoard(string pathToFile)
         {
-            Grid = ParseNonogram(LoadNonogram(pathToFile));
+            _cells = ParseNonogram(LoadNonogram(pathToFile));
         }
 
         private List<string> LoadNonogram(string path)
@@ -40,13 +44,13 @@ namespace Simple.Nonogram.Core
 
                 if (lines.Count > 0)
                 {
-                    Width = lines[0].Length;
-                    Height = lines.Count;
+                    _width = lines[0].Length;
+                    _height = lines.Count;
                 }
             }
             catch (Exception exception)
             {
-                Debug.LogError($"{DateTime.Now}. {exception.Message}.");
+                DebugExtension.LogError($"LoadNonogram: {exception.Message}.");
             }
 
             return lines;
@@ -54,13 +58,13 @@ namespace Simple.Nonogram.Core
 
         private Cell[,] ParseNonogram(List<string> nonogramFile)
         {
-            Cell[,] board;
+            Cell[,] cells = null;
             CellState state;
             char mark = '1';
 
             if (nonogramFile != null && nonogramFile.Count > 0)
             {
-                board = new Cell[Height, Width];
+                cells = new Cell[Height, Width];
 
                 for (int i = 0; i < Height; i++)
                 {
@@ -68,17 +72,16 @@ namespace Simple.Nonogram.Core
                     {
                         state = nonogramFile[i][j] == mark ? CellState.Marked : CellState.Blank;
 
-                        board[i, j] = new Cell(state);
+                        cells[i, j] = new Cell(state);
                     }
                 }
             }
             else
             {
-                Debug.LogError($"{DateTime.Now}. Nonogram {nonogramFile} is null or Count <= 0.");
-                return null;
+                DebugExtension.LogError($"Nonogram {nonogramFile} is null or Count <= 0.");
             }
 
-            return board;
+            return cells;
         }
     }
 }

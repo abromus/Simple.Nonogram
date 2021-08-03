@@ -15,14 +15,11 @@ namespace Simple.Nonogram
         [SerializeField] private NumberCell _numberCellPrefab;
         [SerializeField] private Transform _cellsContainer;
         [SerializeField] private Transform _numberCellsContainer;
-        [SerializeField] private Sprite _blank;
-        [SerializeField] private Sprite _marked;
-        [SerializeField] private Sprite _empty;
 
         private Board _board;
         private NumberBoard _numberBoard;
-        private Cell[,] _cells;
-        private Core.Cell[,] _userBoard;
+        private Cell[,] _userCellsView;
+        private Core.Cell[,] _userCells;
         private NumberCell[,] _topNumberCells;
         private NumberCell[,] _leftNumberCells;
         private GameObject _topNumberCellsContainer;
@@ -35,19 +32,26 @@ namespace Simple.Nonogram
 
         public Bounds Bounds => _bounds;
         public SizeF SpriteSize => _spriteSize;
+        public Core.Cell[,] UserCells => _userCells;
+        public Cell[,] UserCellsView => _userCellsView;
+
+        public event Action<Vector3> Clicked;
+        public event Action<Vector3> Emptied;
+        public event Action<Vector3> HoveredBegin;
+        public event Action<Vector3> HoveredEnd;
 
         private void Awake()
         {
             _board = new Board(_pathToFile);
             _numberBoard = new NumberBoard(_board);
-            _userBoard = new Core.Cell[_board.Grid.GetLength(_heightDimension), _board.Grid.GetLength(_widthDimension)];
+            _userCells = new Core.Cell[_board.Cells.GetLength(_heightDimension), _board.Cells.GetLength(_widthDimension)];
 
             _topNumberCellsContainer = new GameObject(nameof(_topNumberCellsContainer));
             _topNumberCellsContainer.transform.parent = _numberCellsContainer;
             _leftNumberCellsContainer = new GameObject(nameof(_leftNumberCellsContainer));
             _leftNumberCellsContainer.transform.parent = _numberCellsContainer;
 
-            _cells = new Cell[_board.Width, _board.Height];
+            _userCellsView = new Cell[_board.Width, _board.Height];
             _topNumberCells = new NumberCell[_numberBoard.TopNumberCells.GetLength(_widthDimension),
                                             _numberBoard.TopNumberCells.GetLength(_heightDimension)];
             _leftNumberCells = new NumberCell[_numberBoard.LeftNumberCells.GetLength(_widthDimension),
@@ -85,22 +89,22 @@ namespace Simple.Nonogram
 
         private void InitUserBoard()
         {
-            for (int i = 0; i < _userBoard.GetLength(_widthDimension); i++)
-                for (int j = 0; j < _userBoard.GetLength(_heightDimension); j++)
-                    _userBoard[i, j] = new Core.Cell(CellState.Blank);
+            for (int i = 0; i < _userCells.GetLength(_widthDimension); i++)
+                for (int j = 0; j < _userCells.GetLength(_heightDimension); j++)
+                    _userCells[i, j] = new Core.Cell(CellState.Blank);
         }
 
         private void InitBoard()
         {
-            FillArray(_cells, _cellPrefab, transform.position, Vector2.down, _cellsContainer);
+            FillArray(_userCellsView, _cellPrefab, transform.position, Vector2.down, _cellsContainer);
 
-            for (int i = 0; i < _cells.GetLength(_widthDimension); i++)
-                for (int j = 0; j < _cells.GetLength(_heightDimension); j++)
+            for (int i = 0; i < _userCellsView.GetLength(_widthDimension); i++)
+                for (int j = 0; j < _userCellsView.GetLength(_heightDimension); j++)
                 {
-                    //_cells[i, j].GetComponent<SpriteRenderer>().sprite = _board.Grid[j, i].State == CellState.Blank ? _blank : _marked;
-                    _cells[i, j].GetComponent<SpriteRenderer>().sprite = _blank;
-                    _cells[i, j].Clicked += OnClicked;
-                    _cells[i, j].Emptied += OnEmptied;
+                    _userCellsView[i, j].Clicked += OnClicked;
+                    _userCellsView[i, j].Emptied += OnEmptied;
+                    _userCellsView[i, j].HoveredBegin += OnHoveredBegin;
+                    _userCellsView[i, j].HoveredEnd += OnHoveredEnd;
                 }
         }
 
@@ -169,42 +173,22 @@ namespace Simple.Nonogram
 
         private void OnClicked(Vector3 position)
         {
-            if (TryFindCell(position, out Vector2Int coordinate))
-            {
-                CellState state = _userBoard[coordinate.x, coordinate.y].State == CellState.Blank ? CellState.Marked : CellState.Blank;
-                Sprite stateView = _userBoard[coordinate.x, coordinate.y].State == CellState.Blank ? _marked : _blank;
-
-                _userBoard[coordinate.x, coordinate.y].SetState(state);
-                _cells[coordinate.x, coordinate.y].GetComponent<SpriteRenderer>().sprite = stateView;
-            }
+            Clicked?.Invoke(position);
         }
 
         private void OnEmptied(Vector3 position)
         {
-            if (TryFindCell(position, out Vector2Int coordinate))
-            {
-                CellState state = _userBoard[coordinate.x, coordinate.y].State == CellState.Blank ? CellState.Empty : CellState.Blank;
-                Sprite stateView = _userBoard[coordinate.x, coordinate.y].State == CellState.Blank ? _empty : _blank;
-
-                _userBoard[coordinate.x, coordinate.y].SetState(state);
-                _cells[coordinate.x, coordinate.y].GetComponent<SpriteRenderer>().sprite = stateView;
-            }
+            Emptied?.Invoke(position);
         }
 
-        private bool TryFindCell(Vector3 position, out Vector2Int coordinate)
+        private void OnHoveredBegin(Vector3 position)
         {
-            bool isFind = false;
-            coordinate = new Vector2Int(-1, -1);
+            HoveredBegin?.Invoke(position);
+        }
 
-            for (int i = 0; i < _cells.GetLength(_widthDimension); i++)
-                for (int j = 0; j < _cells.GetLength(_heightDimension); j++)
-                    if (_cells[i, j].transform.position == position)
-                    {
-                        coordinate = new Vector2Int(i, j);
-                        isFind = true;
-                    }
-
-            return isFind;
+        private void OnHoveredEnd(Vector3 position)
+        {
+            HoveredEnd?.Invoke(position);
         }
     }
 }

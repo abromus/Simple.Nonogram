@@ -18,10 +18,12 @@ namespace Simple.Nonogram
         private void Start()
         {
             _camera = GetComponent<Camera>();
-            _camera.gameObject.AddComponent<Physics2DRaycaster>();
+
+            if (_camera.TryGetComponent(out Physics2DRaycaster _) == false)
+                _camera.gameObject.AddComponent<Physics2DRaycaster>();
         }
 
-        void Update()
+        private void Update()
         {
             _mouseScrollWheel = Input.GetAxis(_mouseAxis);
 

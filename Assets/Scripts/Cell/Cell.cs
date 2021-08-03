@@ -2,27 +2,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using UnityEngine;
-
 namespace Simple.Nonogram.Core
 {
     public class Cell
     {
-        public CellState State { get; private set; }
+        private CellState _state;
+
+        public CellState State => _state;
 
         public Cell(CellState state)
         {
-            State = state;
+            _state = state;
         }
 
         public Cell() : this(CellState.Empty) { }
 
         public void SetState(CellState state)
         {
+            string message = $"Error CellType! {state} not found in {typeof(CellState)}";
+
             if (Enum.IsDefined(typeof(CellState), state) && State != state)
-                State = state;
+                _state = state;
             else
-                Debug.LogError($"{DateTime.Now}. Error CellType! {state} not found in {typeof(CellState)}");
+                DebugExtension.LogError(message);
         }
 
         public static IEnumerable<Cell> ToIEnumerable(Cell[] source)
@@ -40,9 +42,7 @@ namespace Simple.Nonogram.Core
                 row = new List<Cell>();
 
                 for (int j = 0; j < source.GetLength(1); j++)
-                {
                     row.Add(source[i, j]);
-                }
 
                 result.Add(row);
             }

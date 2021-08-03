@@ -8,27 +8,19 @@ namespace Simple.Nonogram
     [RequireComponent(typeof(SpriteRenderer))]
     public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
-        private SpriteRenderer _spriteRenderer;
-        private Color _defaultColor;
-        private Color _hoverColor = new Color(0.52f, 0.45f, 0.45f);
-
         public event Action<Vector3> Clicked;
         public event Action<Vector3> Emptied;
-
-        private void Start()
-        {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            _defaultColor = _spriteRenderer.color;
-        }
+        public event Action<Vector3> HoveredBegin;
+        public event Action<Vector3> HoveredEnd;
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _spriteRenderer.color = _hoverColor;
+            HoveredBegin?.Invoke(transform.position);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            _spriteRenderer.color = _defaultColor;
+            HoveredEnd?.Invoke(transform.position);
         }
 
         public void OnPointerClick(PointerEventData eventData)

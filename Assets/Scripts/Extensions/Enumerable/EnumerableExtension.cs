@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Simple.Nonogram.Core
 {
-    public static class EnumerableExtensions
+    public static class EnumerableExtension
     {
         public static IEnumerable<IEnumerable<T>> Transpose<T>(this IEnumerable<IEnumerable<T>> source)
         {

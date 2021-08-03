@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 59208309}
   - component: {fileID: 59208310}
+  - component: {fileID: 59208311}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -173,9 +174,21 @@ MonoBehaviour:
   _numberCellPrefab: {fileID: 2636979842936652728, guid: 2290af09f3a97b3489ce87130c1374bf, type: 3}
   _cellsContainer: {fileID: 1672967686}
   _numberCellsContainer: {fileID: 995310518}
+--- !u!114 &59208311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59208308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94663a9a05d8bea44aeee086907eda64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _blank: {fileID: 3118169986250858628, guid: b4138aeeecbd3c34c97afc952cc5aa28, type: 3}
   _marked: {fileID: 2727827721380933150, guid: b4138aeeecbd3c34c97afc952cc5aa28, type: 3}
-  _empty: {fileID: 0}
+  _empty: {fileID: 8049911259224749401, guid: b4138aeeecbd3c34c97afc952cc5aa28, type: 3}
 --- !u!1 &298836692
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +303,6 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
-  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -393,22 +405,6 @@ MonoBehaviour:
   _wheelSpeed: 50
   _minSize: 1
   _maxSize: 10
---- !u!114 &519420034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EventMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_MaxRayIntersections: 0
 --- !u!1 &625695922
 GameObject:
   m_ObjectHideFlags: 0

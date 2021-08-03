@@ -4,23 +4,25 @@ namespace Simple.Nonogram.Core
 {
     class NumberBoard
     {
-        private readonly Cell[,] _grid;
+        private int[,] _topNumberCells;
+        private int[,] _leftNumberCells;
 
-        public int[,] TopNumberCells { get; private set; }
-        public int[,] LeftNumberCells { get; private set; }
+        private readonly Cell[,] _cells;
+
+        public int[,] TopNumberCells => _topNumberCells;
+        public int[,] LeftNumberCells => _leftNumberCells;
 
         public NumberBoard(Board board)
         {
-            _grid = board.Grid;
+            _cells = board.Cells;
             GenerateNumberCells();
         }
 
         private void GenerateNumberCells()
         {
-            TopNumberCells = CalculateNumberCells(true);
-            LeftNumberCells = CalculateNumberCells(false);
+            _topNumberCells = CalculateNumberCells(true);
 
-            LeftNumberCells = Transpose(LeftNumberCells);
+            _leftNumberCells = Transpose(CalculateNumberCells(false));
         }
 
         private int[,] Transpose(int[,] array)
@@ -40,9 +42,11 @@ namespace Simple.Nonogram.Core
 
         private int[,] CalculateNumberCells(bool isTop = true)
         {
-            List<List<Cell>> grid = isTop ? Cell.ToIEnumerable(_grid).Transpose().ToLists() : Cell.ToIEnumerable(_grid).ToLists();
+            List<List<Cell>> grid = isTop ? Cell.ToIEnumerable(_cells).Transpose().ToLists() : Cell.ToIEnumerable(_cells).ToLists();
             List<List<int>> cells = new List<List<int>>();
             int countMarked = 0;
+            int zero = 0;
+            int rowCount;
 
             for (int i = 0; i < grid.Count; i++)
             {
@@ -50,22 +54,23 @@ namespace Simple.Nonogram.Core
 
                 for (int j = 0; j < grid[i].Count; j++)
                 {
-                    if (grid[i][j].State == CellState.Marked && j == grid[i].Count - 1 || countMarked > 0 && grid[i][j].State != CellState.Marked)
+                    rowCount = grid[i].Count - 1;
+
+                    if (grid[i][j].State == CellState.Marked && j == rowCount || countMarked > zero && grid[i][j].State != CellState.Marked)
                     {
-                        if (grid[i][j].State == CellState.Marked && j == grid[i].Count - 1)
-                        {
+                        if (grid[i][j].State == CellState.Marked && j == rowCount)
                             countMarked++;
-                        }
 
                         row.Add(countMarked);
-                        countMarked = 0;
+                        countMarked = zero;
                     }
                     else if (grid[i][j].State == CellState.Marked)
                     {
                         countMarked++;
                     }
                 }
-                countMarked = 0;
+
+                countMarked = zero;
 
                 row.Reverse();
                 cells.Add(row);
