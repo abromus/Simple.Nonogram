@@ -34,6 +34,8 @@ namespace Simple.Nonogram
         public SizeF SpriteSize => _spriteSize;
         public Core.Cell[,] UserCells => _userCells;
         public Cell[,] UserCellsView => _userCellsView;
+        public NumberCell[,] TopNumberCells => _topNumberCells;
+        public NumberCell[,] LeftNumberCells => _leftNumberCells;
 
         public event Action<Vector3> Clicked;
         public event Action<Vector3> Emptied;
