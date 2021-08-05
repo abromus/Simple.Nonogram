@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Simple.Nonogram
+namespace Simple.Nonogram.Components
 {
     [RequireComponent(typeof(Camera))]
     public class CameraZoom : MonoBehaviour

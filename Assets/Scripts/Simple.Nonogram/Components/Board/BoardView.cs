@@ -6,7 +6,7 @@ using TMPro;
 
 using UnityEngine;
 
-namespace Simple.Nonogram
+namespace Simple.Nonogram.Components
 {
     public class BoardView : MonoBehaviour
     {

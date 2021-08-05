@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Simple.Nonogram
+namespace Simple.Nonogram.Components
 {
     [RequireComponent(typeof(Camera))]
     public class CameraMovement : MonoBehaviour

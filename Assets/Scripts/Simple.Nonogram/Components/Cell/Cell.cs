@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Simple.Nonogram
+namespace Simple.Nonogram.Components
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler

@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Simple.Nonogram
+namespace Simple.Nonogram.Components
 {
     [RequireComponent(typeof(BoardView))]
     public class BoardViewRenderer : MonoBehaviour
