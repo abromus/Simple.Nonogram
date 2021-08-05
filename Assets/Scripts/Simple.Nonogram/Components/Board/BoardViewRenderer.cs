@@ -19,9 +19,6 @@ namespace Simple.Nonogram.Components
         private Color _hoverTopNumberCellColor = new Color(0.33f, 0.3f, 0.3f);
         private Color _hoverLeftNumberCellColor = new Color(0.33f, 0.3f, 0.3f);
 
-        private readonly int _widthDimension = 0;
-        private readonly int _heightDimension = 1;
-
         private void Start()
         {
             int x = 0;
@@ -41,12 +38,12 @@ namespace Simple.Nonogram.Components
 
         private void OnClicked(Vector3 position)
         {
-            MarkCell(position, CellState.Marked, _marked);
+            MarkCell(position, _marked);
         }
 
         private void OnEmptied(Vector3 position)
         {
-            MarkCell(position, CellState.Empty, _empty);
+            MarkCell(position, _empty);
         }
 
         private void OnHoveredBegin(Vector3 position)
@@ -64,8 +61,8 @@ namespace Simple.Nonogram.Components
             bool isFind = false;
             coordinate = new Vector2Int(-1, -1);
 
-            for (int i = 0; i < _boardView.UserCellsView.GetLength(_widthDimension); i++)
-                for (int j = 0; j < _boardView.UserCellsView.GetLength(_heightDimension); j++)
+            for (int i = 0; i < _boardView.UserCellsView.GetLength(Constants.WidthDimension); i++)
+                for (int j = 0; j < _boardView.UserCellsView.GetLength(Constants.HeightDimension); j++)
                     if (_boardView.UserCellsView[i, j].transform.position == position)
                     {
                         coordinate = new Vector2Int(i, j);
@@ -75,15 +72,13 @@ namespace Simple.Nonogram.Components
             return isFind;
         }
 
-        private void MarkCell(Vector3 position, CellState filledState, Sprite filledStateView)
+        private void MarkCell(Vector3 position, Sprite filledStateView)
         {
             if (TryFindCell(position, out Vector2Int coordinate))
             {
-                CellState state = _boardView.UserCells[coordinate.x, coordinate.y].State == CellState.Blank ? filledState : CellState.Blank;
-                Sprite stateView = _boardView.UserCells[coordinate.x, coordinate.y].State == CellState.Blank ? filledStateView : _blank;
+                SpriteRenderer spriteRenderer = _boardView.UserCellsView[coordinate.x, coordinate.y].GetComponent<SpriteRenderer>();
 
-                _boardView.UserCells[coordinate.x, coordinate.y].SetState(state);
-                _boardView.UserCellsView[coordinate.x, coordinate.y].GetComponent<SpriteRenderer>().sprite = stateView;
+                spriteRenderer.sprite = spriteRenderer.sprite != filledStateView ? filledStateView : _blank;
             }
         }
 
@@ -91,17 +86,17 @@ namespace Simple.Nonogram.Components
         {
             if (TryFindCell(position, out Vector2Int coordinate))
             {
-                for (int i = 0; i < _boardView.UserCellsView.GetLength(_widthDimension); i++)
+                for (int i = 0; i < _boardView.UserCellsView.GetLength(Constants.WidthDimension); i++)
                     _boardView.UserCellsView[i, coordinate.y].GetComponent<SpriteRenderer>().color = cellColor;
 
-                for (int j = 0; j < _boardView.UserCellsView.GetLength(_heightDimension); j++)
+                for (int j = 0; j < _boardView.UserCellsView.GetLength(Constants.HeightDimension); j++)
                     _boardView.UserCellsView[coordinate.x, j].GetComponent<SpriteRenderer>().color = cellColor;
 
-                for (int i = 0; i < _boardView.LeftNumberCells.GetLength(_widthDimension); i++)
-                    _boardView.LeftNumberCells[i, coordinate.y].GetComponent<SpriteRenderer>().color = leftNumberCellColor;
+                for (int i = 0; i < _boardView.TopNumberCells.GetLength(Constants.WidthDimension); i++)
+                    _boardView.TopNumberCells[i, coordinate.y].GetComponent<SpriteRenderer>().color = topNumberCellColor;
 
-                for (int j = 0; j < _boardView.TopNumberCells.GetLength(_heightDimension); j++)
-                    _boardView.TopNumberCells[coordinate.x, j].GetComponent<SpriteRenderer>().color = topNumberCellColor;
+                for (int j = 0; j < _boardView.LeftNumberCells.GetLength(Constants.HeightDimension); j++)
+                    _boardView.LeftNumberCells[coordinate.x, j].GetComponent<SpriteRenderer>().color = leftNumberCellColor;
             }
         }
     }

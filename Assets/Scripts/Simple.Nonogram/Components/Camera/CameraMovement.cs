@@ -1,3 +1,5 @@
+using Simple.Nonogram.Core;
+
 using UnityEngine;
 
 namespace Simple.Nonogram.Components
@@ -12,7 +14,7 @@ namespace Simple.Nonogram.Components
         private Camera _camera;
         private Bounds _bounds;
         private Vector3 _startPosition;
-        private int _moveButton = 2;
+        private int _moveButton = Constants.MiddleButton;
 
         private void Start()
         {
@@ -30,6 +32,14 @@ namespace Simple.Nonogram.Components
                 transform.position = new Vector3(_bounds.min.x, _bounds.max.y, _camera.transform.position.z);
         }
 
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(_moveButton))
+                _startPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+            else if (Input.GetMouseButton(_moveButton))
+                Move();
+        }
+
         private void CalculateBounds()
         {
             Vector2 bottomLeft = _camera.ScreenToWorldPoint(new Vector2(0, 0));
@@ -42,14 +52,6 @@ namespace Simple.Nonogram.Components
 
             _bounds.min = new Vector3(x1 < x2 ? x1 : x2, y1 < y2 ? y1 : y2, z);
             _bounds.max = new Vector3(x2 > x1 ? x2 : x1, y2 > y1 ? y2 : y1, z);
-        }
-
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(_moveButton))
-                _startPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-            else if (Input.GetMouseButton(_moveButton))
-                Move();
         }
 
         private void Move()

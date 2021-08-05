@@ -15,21 +15,16 @@ namespace Simple.Nonogram.Core
             _state = state;
         }
 
-        public Cell() : this(CellState.Empty) { }
+        public Cell() : this(CellState.Blank) { }
 
         public void SetState(CellState state)
         {
-            string message = $"Error CellType! {state} not found in {typeof(CellState)}";
+            string message = $"InvalidEnumArgumentException: (CellState = {state}). {state} not found in {typeof(CellState)}";
 
             if (Enum.IsDefined(typeof(CellState), state) && State != state)
                 _state = state;
             else
                 DebugExtension.LogError(message);
-        }
-
-        public static IEnumerable<Cell> ToIEnumerable(Cell[] source)
-        {
-            return source.ToList();
         }
 
         public static IEnumerable<IEnumerable<Cell>> ToIEnumerable(Cell[,] source)

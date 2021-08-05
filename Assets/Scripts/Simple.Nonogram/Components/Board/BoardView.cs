@@ -16,10 +16,10 @@ namespace Simple.Nonogram.Components
         [SerializeField] private Transform _cellsContainer;
         [SerializeField] private Transform _numberCellsContainer;
 
-        private Board _board;
+        private AnswerBoard _answerBoard;
+        private UserBoard _userBoard;
         private NumberBoard _numberBoard;
         private Cell[,] _userCellsView;
-        private Core.Cell[,] _userCells;
         private NumberCell[,] _topNumberCells;
         private NumberCell[,] _leftNumberCells;
         private GameObject _topNumberCellsContainer;
@@ -27,15 +27,13 @@ namespace Simple.Nonogram.Components
         private Bounds _bounds;
         private SizeF _spriteSize;
 
-        private readonly int _widthDimension = 0;
-        private readonly int _heightDimension = 1;
-
-        public Bounds Bounds => _bounds;
-        public SizeF SpriteSize => _spriteSize;
-        public Core.Cell[,] UserCells => _userCells;
+        public AnswerBoard AnswerBoard => _answerBoard;
+        public UserBoard UserBoard => _userBoard;
         public Cell[,] UserCellsView => _userCellsView;
         public NumberCell[,] TopNumberCells => _topNumberCells;
         public NumberCell[,] LeftNumberCells => _leftNumberCells;
+        public Bounds Bounds => _bounds;
+        public SizeF SpriteSize => _spriteSize;
 
         public event Action<Vector3> Clicked;
         public event Action<Vector3> Emptied;
@@ -44,33 +42,30 @@ namespace Simple.Nonogram.Components
 
         private void Awake()
         {
-            _board = new Board(_pathToFile);
-            _numberBoard = new NumberBoard(_board);
-            _userCells = new Core.Cell[_board.Cells.GetLength(_heightDimension), _board.Cells.GetLength(_widthDimension)];
+            _answerBoard = new AnswerBoard(_pathToFile);
+            _userBoard = new UserBoard(_answerBoard);
+            _numberBoard = new NumberBoard(_answerBoard);
 
             _topNumberCellsContainer = new GameObject(nameof(_topNumberCellsContainer));
             _topNumberCellsContainer.transform.parent = _numberCellsContainer;
             _leftNumberCellsContainer = new GameObject(nameof(_leftNumberCellsContainer));
             _leftNumberCellsContainer.transform.parent = _numberCellsContainer;
 
-            _userCellsView = new Cell[_board.Width, _board.Height];
-            _topNumberCells = new NumberCell[_numberBoard.TopNumberCells.GetLength(_widthDimension),
-                                            _numberBoard.TopNumberCells.GetLength(_heightDimension)];
-            _leftNumberCells = new NumberCell[_numberBoard.LeftNumberCells.GetLength(_widthDimension),
-                                            _numberBoard.LeftNumberCells.GetLength(_heightDimension)];
+            _userCellsView = new Cell[_answerBoard.Height, _answerBoard.Width];
+            _topNumberCells = new NumberCell[_numberBoard.TopNumberCells.GetLength(Constants.WidthDimension),
+                                            _numberBoard.TopNumberCells.GetLength(Constants.HeightDimension)];
+            _leftNumberCells = new NumberCell[_numberBoard.LeftNumberCells.GetLength(Constants.WidthDimension),
+                                            _numberBoard.LeftNumberCells.GetLength(Constants.HeightDimension)];
 
-            Init();
+            Initialize();
 
             DefineBoardPositions();
         }
 
-        private void Init()
+        private void Initialize()
         {
             CalculateSpriteSize();
-            InitUserBoard();
-            InitBoard();
-            InitTopNumberCells();
-            InitLeftNumberCells();
+            InitializeBoardView();
         }
 
         private void CalculateSpriteSize()
@@ -89,68 +84,69 @@ namespace Simple.Nonogram.Components
             _spriteSize = new SizeF(widthSprite, heightSprite);
         }
 
-        private void InitUserBoard()
-        {
-            for (int i = 0; i < _userCells.GetLength(_widthDimension); i++)
-                for (int j = 0; j < _userCells.GetLength(_heightDimension); j++)
-                    _userCells[i, j] = new Core.Cell(CellState.Blank);
-        }
-
-        private void InitBoard()
+        private void InitializeBoardView()
         {
             FillArray(_userCellsView, _cellPrefab, transform.position, Vector2.down, _cellsContainer);
 
-            for (int i = 0; i < _userCellsView.GetLength(_widthDimension); i++)
-                for (int j = 0; j < _userCellsView.GetLength(_heightDimension); j++)
+            for (int i = 0; i < _userCellsView.GetLength(Constants.WidthDimension); i++)
+                for (int j = 0; j < _userCellsView.GetLength(Constants.HeightDimension); j++)
                 {
                     _userCellsView[i, j].Clicked += OnClicked;
                     _userCellsView[i, j].Emptied += OnEmptied;
                     _userCellsView[i, j].HoveredBegin += OnHoveredBegin;
                     _userCellsView[i, j].HoveredEnd += OnHoveredEnd;
                 }
+
+            InitializeTopNumberCells();
+            InitializeLeftNumberCells();
         }
 
-        private void InitTopNumberCells()
+        private void InitializeTopNumberCells()
         {
-            FillArray(_topNumberCells,
-                      _numberCellPrefab,
-                      new Vector3(transform.position.x, transform.position.y + _spriteSize.Height, transform.position.z),
-                      Vector2.up,
-                      _topNumberCellsContainer.transform);
-
-            for (int i = 0; i < _numberBoard.TopNumberCells.GetLength(_widthDimension); i++)
-                for (int j = 0; j < _numberBoard.TopNumberCells.GetLength(_heightDimension); j++)
-                    if (_numberBoard.TopNumberCells[i, j] > 0)
-                        _topNumberCells[i, j].GetComponentInChildren<TMP_Text>().text = _numberBoard.TopNumberCells[i, j].ToString();
+            InitializeNumberCells(_topNumberCells,
+                                _numberCellPrefab,
+                                new Vector3(transform.position.x, transform.position.y + _spriteSize.Height, transform.position.z),
+                                Vector2.up,
+                                _topNumberCellsContainer.transform,
+                                _numberBoard.TopNumberCells);
         }
 
-        private void InitLeftNumberCells()
+        private void InitializeLeftNumberCells()
         {
             Vector2 left = new Vector2(-1, -1);
 
-            FillArray(_leftNumberCells,
-                      _numberCellPrefab,
-                      new Vector3(transform.position.x - _spriteSize.Width, transform.position.y, transform.position.z),
-                      left,
-                      _leftNumberCellsContainer.transform);
+            InitializeNumberCells(_leftNumberCells,
+                              _numberCellPrefab,
+                              new Vector3(transform.position.x - _spriteSize.Width, transform.position.y, transform.position.z),
+                              left,
+                              _leftNumberCellsContainer.transform,
+                              _numberBoard.LeftNumberCells);
+        }
 
-            for (int i = 0; i < _numberBoard.LeftNumberCells.GetLength(_widthDimension); i++)
-                for (int j = 0; j < _numberBoard.LeftNumberCells.GetLength(_heightDimension); j++)
-                    if (_numberBoard.LeftNumberCells[i, j] > 0)
-                        _leftNumberCells[i, j].GetComponentInChildren<TMP_Text>().text = _numberBoard.LeftNumberCells[i, j].ToString();
+        private void InitializeNumberCells(NumberCell[,] numberCellsView, NumberCell numberCellPrefab, Vector3 startPosition, Vector2 direction, Transform parent, int[,] numberCells)
+        {
+            FillArray(numberCellsView, numberCellPrefab, startPosition, direction, parent);
+
+            for (int i = 0; i < numberCells.GetLength(Constants.WidthDimension); i++)
+                for (int j = 0; j < numberCells.GetLength(Constants.HeightDimension); j++)
+                    if (numberCells[i, j] > Constants.ZeroCount)
+                        numberCellsView[i, j].GetComponentInChildren<TMP_Text>().text = numberCells[i, j].ToString();
         }
 
         private void FillArray(MonoBehaviour[,] array, MonoBehaviour prefab, Vector3 startPosition, Vector2 direction, Transform parent)
         {
-            int directionX = direction.x < 0 ? -1 : 1;
-            int directionY = direction.y < 0 ? -1 : 1;
-            for (int i = 0; i < array.GetLength(_widthDimension); i++)
+            int negativeSign = -1;
+            int positiveSign = 1;
+            int directionX = direction.x < Constants.ZeroCount ? negativeSign : positiveSign;
+            int directionY = direction.y < Constants.ZeroCount ? negativeSign : positiveSign;
+
+            for (int i = 0; i < array.GetLength(Constants.WidthDimension); i++)
             {
-                for (int j = 0; j < array.GetLength(_heightDimension); j++)
+                for (int j = 0; j < array.GetLength(Constants.HeightDimension); j++)
                 {
                     array[i, j] = Instantiate(prefab,
-                                              new Vector3(startPosition.x + directionX * i * _spriteSize.Width,
-                                                          startPosition.y + directionY * j * _spriteSize.Height,
+                                              new Vector3(startPosition.x + directionX * j * _spriteSize.Width,
+                                                          startPosition.y + directionY * i * _spriteSize.Height,
                                                           startPosition.z),
                                               Quaternion.identity);
 
@@ -161,8 +157,10 @@ namespace Simple.Nonogram.Components
 
         private void DefineBoardPositions()
         {
-            Vector2Int topNumberCellsSize = new Vector2Int(_topNumberCells.GetLength(_widthDimension), _topNumberCells.GetLength(_heightDimension));
-            Vector2Int leftNumberCellsSize = new Vector2Int(_leftNumberCells.GetLength(_widthDimension), _leftNumberCells.GetLength(_heightDimension));
+            Vector2Int topNumberCellsSize = new Vector2Int(_topNumberCells.GetLength(Constants.WidthDimension),
+                                                           _topNumberCells.GetLength(Constants.HeightDimension));
+            Vector2Int leftNumberCellsSize = new Vector2Int(_leftNumberCells.GetLength(Constants.WidthDimension),
+                                                            _leftNumberCells.GetLength(Constants.HeightDimension));
             int numberCellsContainerIndex = 0;
             int topNumberCellsContainerIndex = 0;
             int leftNumberCellsContainerIndex = 1;
@@ -173,13 +171,26 @@ namespace Simple.Nonogram.Components
             _bounds.max = transform.GetChild(numberCellsContainerIndex).GetChild(topNumberCellsContainerIndex).GetChild(topCellIndex).position;
         }
 
+        private void SetUserBoardCellState(Vector3 position, CellState filledState)
+        {
+            int x = Mathf.Abs((int)(position.x / _spriteSize.Width));
+            int y = Mathf.Abs((int)(position.y / _spriteSize.Height));
+            CellState state = _userBoard.Cells[y, x].State != filledState ? filledState : CellState.Blank;
+
+            _userBoard.Cells[y, x].SetState(state);
+        }
+
         private void OnClicked(Vector3 position)
         {
+            SetUserBoardCellState(position, CellState.Marked);
+
             Clicked?.Invoke(position);
         }
 
         private void OnEmptied(Vector3 position)
         {
+            SetUserBoardCellState(position, CellState.Empty);
+
             Emptied?.Invoke(position);
         }
 
