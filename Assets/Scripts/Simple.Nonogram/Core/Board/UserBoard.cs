@@ -6,10 +6,11 @@ namespace Simple.Nonogram.Core
         {
             Width = answerBoard.Width;
             Height = answerBoard.Height;
-            InitializeUserBoard();
+
+            Initialize();
         }
 
-        private void InitializeUserBoard()
+        private void Initialize()
         {
             Cells = new Cell[Height, Width];
 

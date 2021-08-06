@@ -11,8 +11,10 @@ namespace Simple.Nonogram.Core
         private BoardView _boardView;
         private AnswerBoard _answerBoard;
         private UserBoard _userBoard;
-        private int _width;
-        private int _height;
+        private bool[,] _mistakeBoard;
+
+        public event Action<Vector3> MarkMistake;
+        public event Action<Vector3> RemoveMistake;
 
         public Verifier(BoardView boardView)
         {
@@ -20,35 +22,42 @@ namespace Simple.Nonogram.Core
             _answerBoard = _boardView.AnswerBoard;
             _userBoard = _boardView.UserBoard;
 
-            _width = _answerBoard.Width;
-            _height = _answerBoard.Height;
+            InitializeMistakeBoard();
 
             boardView.Clicked += OnClicked;
-            //boardView.Emptied += OnEmptied;
         }
 
-        private void Verify(Vector3 position)
+        private void InitializeMistakeBoard()
+        {
+            _mistakeBoard = new bool[_boardView.AnswerBoard.Height, _boardView.AnswerBoard.Width];
+
+            for (int i = 0; i < _mistakeBoard.GetLength(Constants.WidthDimension); i++)
+                for (int j = 0; j < _mistakeBoard.GetLength(Constants.HeightDimension); j++)
+                    _mistakeBoard[i, j] = false;
+        }
+
+        private void CheckCell(Vector3 position)
         {
             int x = Mathf.Abs((int)(position.x / _boardView.SpriteSize.Width));
             int y = Mathf.Abs((int)(position.y / _boardView.SpriteSize.Height));
 
-            if (_userBoard.Cells[y, x].State != _answerBoard.Cells[y, x].State)
+            if (_userBoard.Cells[y, x].State == CellState.Marked && _userBoard.Cells[y, x].State != _answerBoard.Cells[y, x].State)
             {
-                Debug.LogWarning($"userBoard = {_userBoard.Cells[y, x].State} != answerBoard = {_answerBoard.Cells[y, x].State}");
-                return;
-            }
+                _mistakeBoard[y, x] = true;
+                MarkMistake?.Invoke(position);
 
-            Debug.Log($"Good! ({y}, {x})");
+                DebugExtension.LogWarning($"_userBoard = {_userBoard.Cells[y, x].State} != _answerBoard = {_answerBoard.Cells[y, x].State}");
+            }
+            else if (_mistakeBoard[y, x] == true)
+            {
+                _mistakeBoard[y, x] = false;
+                RemoveMistake?.Invoke(position);
+            }
         }
 
         private void OnClicked(Vector3 position)
         {
-            Verify(position);
-        }
-
-        private void OnEmptied(Vector3 position)
-        {
-            Verify(position);
+            CheckCell(position);
         }
     }
 }

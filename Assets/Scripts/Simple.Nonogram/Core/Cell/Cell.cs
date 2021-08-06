@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Simple.Nonogram.Core
 {
@@ -32,11 +31,11 @@ namespace Simple.Nonogram.Core
             List<List<Cell>> result = new List<List<Cell>>();
             List<Cell> row;
 
-            for (int i = 0; i < source.GetLength(0); i++)
+            for (int i = 0; i < source.GetLength(Constants.WidthDimension); i++)
             {
                 row = new List<Cell>();
 
-                for (int j = 0; j < source.GetLength(1); j++)
+                for (int j = 0; j < source.GetLength(Constants.HeightDimension); j++)
                     row.Add(source[i, j]);
 
                 result.Add(row);

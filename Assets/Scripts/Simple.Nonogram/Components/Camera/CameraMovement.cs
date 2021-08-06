@@ -50,8 +50,8 @@ namespace Simple.Nonogram.Components
             float y2 = _board.Bounds.max.y - topRight.y + _board.SpriteSize.Height;
             float z = _camera.transform.position.z;
 
-            _bounds.min = new Vector3(x1 < x2 ? x1 : x2, y1 < y2 ? y1 : y2, z);
-            _bounds.max = new Vector3(x2 > x1 ? x2 : x1, y2 > y1 ? y2 : y1, z);
+            _bounds.min = new Vector3(Mathf.Min(x1, x2), Mathf.Min(y1, y2), z);
+            _bounds.max = new Vector3(Mathf.Max(x1, x2), Mathf.Max(y1, y2), z);
         }
 
         private void Move()

@@ -10,10 +10,10 @@ namespace Simple.Nonogram.Core
     {
         public AnswerBoard(string pathToFile)
         {
-            InitializeBoard(Application.dataPath + pathToFile);
+            Initialize(Application.dataPath + pathToFile);
         }
 
-        private void InitializeBoard(string pathToFile)
+        private void Initialize(string pathToFile)
         {
             Cells = ParseNonogram(LoadNonogram(pathToFile));
         }

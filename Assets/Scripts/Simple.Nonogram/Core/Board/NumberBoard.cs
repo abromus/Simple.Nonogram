@@ -30,7 +30,7 @@ namespace Simple.Nonogram.Core
         {
             List<List<Cell>> grid = isTop ? Cell.ToIEnumerable(_cells).Transpose().ToLists() : Cell.ToIEnumerable(_cells).ToLists();
             List<List<int>> cells = new List<List<int>>();
-            int countMarked = 0;
+            int countMarked = Constants.ZeroCount;
             int rowCount;
 
             for (int i = 0; i < grid.Count; i++)
