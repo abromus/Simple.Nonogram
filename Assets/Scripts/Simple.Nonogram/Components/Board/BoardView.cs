@@ -5,6 +5,7 @@ using Simple.Nonogram.Core;
 using TMPro;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Simple.Nonogram.Components
 {
@@ -26,6 +27,10 @@ namespace Simple.Nonogram.Components
         private GameObject _leftNumberCellsContainer;
         private Bounds _bounds;
         private SizeF _spriteSize;
+        private Vector3 _startClickPosition;
+        private Vector3 _endClickPosition;
+        private bool _isClicked;
+        private PointerEventData.InputButton _button;
 
         public AnswerBoard AnswerBoard => _answerBoard;
         public UserBoard UserBoard => _userBoard;
@@ -35,10 +40,12 @@ namespace Simple.Nonogram.Components
         public Bounds Bounds => _bounds;
         public SizeF SpriteSize => _spriteSize;
 
-        public event Action<Vector3> Clicked;
-        public event Action<Vector3> Emptied;
-        public event Action<Vector3> HoveredBegin;
-        public event Action<Vector3> HoveredEnd;
+        public event Action<Vector3> BoardClicked;
+        public event Action<Vector3> BoardEmptied;
+        public event Action<Vector3> BoardHoveredBegin;
+        public event Action<Vector3> BoardHoveredEnd;
+        public event Action<Vector3> TopNumberBoardClicked;
+        public event Action<Vector3> LeftNumberBoardClicked;
 
         private void Awake()
         {
@@ -91,10 +98,12 @@ namespace Simple.Nonogram.Components
             for (int i = 0; i < _userCellsView.GetLength(Constants.WidthDimension); i++)
                 for (int j = 0; j < _userCellsView.GetLength(Constants.HeightDimension); j++)
                 {
-                    _userCellsView[i, j].Clicked += OnClicked;
-                    _userCellsView[i, j].Emptied += OnEmptied;
-                    _userCellsView[i, j].HoveredBegin += OnHoveredBegin;
-                    _userCellsView[i, j].HoveredEnd += OnHoveredEnd;
+                    _userCellsView[i, j].Clicked += OnBoardClicked;
+                    _userCellsView[i, j].Emptied += OnBoardEmptied;
+                    _userCellsView[i, j].HoveredBegin += OnBoardHoveredBegin;
+                    _userCellsView[i, j].HoveredEnd += OnBoardHoveredEnd;
+                    _userCellsView[i, j].PointerDown += OnBoardPointerDown;
+                    _userCellsView[i, j].PointerUp += OnBoardPointerUp;
                 }
 
             InitializeTopNumberCells();
@@ -108,7 +117,7 @@ namespace Simple.Nonogram.Components
                                 new Vector3(transform.position.x, transform.position.y + _spriteSize.Height, transform.position.z),
                                 Vector2.up,
                                 _topNumberCellsContainer.transform,
-                                _numberBoard.TopNumberCells);
+                                _numberBoard.TopNumberCells, OnTopNumberBoardClicked);
         }
 
         private void InitializeLeftNumberCells()
@@ -120,17 +129,20 @@ namespace Simple.Nonogram.Components
                               new Vector3(transform.position.x - _spriteSize.Width, transform.position.y, transform.position.z),
                               left,
                               _leftNumberCellsContainer.transform,
-                              _numberBoard.LeftNumberCells);
+                              _numberBoard.LeftNumberCells, OnLeftNumberBoardClicked);
         }
 
-        private void InitializeNumberCells(NumberCell[,] numberCellsView, NumberCell numberCellPrefab, Vector3 startPosition, Vector2 direction, Transform parent, int[,] numberCells)
+        private void InitializeNumberCells(NumberCell[,] numberCellsView, NumberCell numberCellPrefab, Vector3 startPosition, Vector2 direction, Transform parent, int[,] numberCells, Action<Vector3, PointerEventData.InputButton> onNumberBoardClicked)
         {
             FillArray(numberCellsView, numberCellPrefab, startPosition, direction, parent);
 
             for (int i = 0; i < numberCells.GetLength(Constants.WidthDimension); i++)
                 for (int j = 0; j < numberCells.GetLength(Constants.HeightDimension); j++)
                     if (numberCells[i, j] > Constants.ZeroCount)
+                    {
                         numberCellsView[i, j].GetComponentInChildren<TMP_Text>().text = numberCells[i, j].ToString();
+                        numberCellsView[i, j].Clicked += onNumberBoardClicked;
+                    }
         }
 
         private void FillArray(MonoBehaviour[,] array, MonoBehaviour prefab, Vector3 startPosition, Vector2 direction, Transform parent)
@@ -180,28 +192,64 @@ namespace Simple.Nonogram.Components
             _userBoard.Cells[y, x].SetState(state);
         }
 
-        private void OnClicked(Vector3 position)
+        private void CheckDragging(Vector3 position)
+        {
+            if (_isClicked && _startClickPosition != _endClickPosition)
+            {
+                if (_button == PointerEventData.InputButton.Left)
+                    OnBoardClicked(position, _button);
+                else if (_button == PointerEventData.InputButton.Right)
+                    OnBoardEmptied(position, _button);
+            }
+        }
+
+        private void OnBoardClicked(Vector3 position, PointerEventData.InputButton button)
         {
             SetUserBoardCellState(position, CellState.Marked);
 
-            Clicked?.Invoke(position);
+            BoardClicked?.Invoke(position);
         }
 
-        private void OnEmptied(Vector3 position)
+        private void OnBoardEmptied(Vector3 position, PointerEventData.InputButton button)
         {
             SetUserBoardCellState(position, CellState.Empty);
 
-            Emptied?.Invoke(position);
+            BoardEmptied?.Invoke(position);
         }
 
-        private void OnHoveredBegin(Vector3 position)
+        private void OnBoardHoveredBegin(Vector3 position, PointerEventData.InputButton button)
         {
-            HoveredBegin?.Invoke(position);
+            BoardHoveredBegin?.Invoke(position);
+
+            CheckDragging(position);
         }
 
-        private void OnHoveredEnd(Vector3 position)
+        private void OnBoardHoveredEnd(Vector3 position, PointerEventData.InputButton button)
         {
-            HoveredEnd?.Invoke(position);
+            BoardHoveredEnd?.Invoke(position);
+        }
+
+        private void OnBoardPointerDown(Vector3 position, PointerEventData.InputButton button)
+        {
+            _startClickPosition = position;
+            _isClicked = true;
+            _button = button;
+        }
+
+        private void OnBoardPointerUp(Vector3 position, PointerEventData.InputButton button)
+        {
+            _endClickPosition = position;
+            _isClicked = false;
+        }
+
+        private void OnTopNumberBoardClicked(Vector3 position, PointerEventData.InputButton button)
+        {
+            TopNumberBoardClicked?.Invoke(position);
+        }
+
+        private void OnLeftNumberBoardClicked(Vector3 position, PointerEventData.InputButton button)
+        {
+            LeftNumberBoardClicked?.Invoke(position);
         }
     }
 }

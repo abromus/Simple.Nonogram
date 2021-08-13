@@ -24,7 +24,7 @@ namespace Simple.Nonogram.Core
 
             InitializeMistakeBoard();
 
-            boardView.Clicked += OnClicked;
+            boardView.BoardClicked += OnClicked;
         }
 
         private void InitializeMistakeBoard()
@@ -45,8 +45,6 @@ namespace Simple.Nonogram.Core
             {
                 _mistakeBoard[y, x] = true;
                 MarkMistake?.Invoke(position);
-
-                DebugExtension.LogWarning($"_userBoard = {_userBoard.Cells[y, x].State} != _answerBoard = {_answerBoard.Cells[y, x].State}");
             }
             else if (_mistakeBoard[y, x] == true)
             {

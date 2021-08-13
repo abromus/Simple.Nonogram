@@ -8,8 +8,8 @@ namespace Simple.Nonogram.Components
     public class CameraMovement : MonoBehaviour
     {
         [SerializeField] private BoardView _board;
-        [SerializeField] [Range(0, 1)] private float _horizontalSpeed = 0.05f;
-        [SerializeField] [Range(0, 1)] private float _verticalSpeed = 0.05f;
+        [SerializeField] [Range(0, 1)] private float _horizontalSpeed = 0.5f;
+        [SerializeField] [Range(0, 1)] private float _verticalSpeed = 0.5f;
 
         private Camera _camera;
         private Bounds _bounds;

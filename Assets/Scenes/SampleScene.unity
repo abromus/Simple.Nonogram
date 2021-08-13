@@ -190,6 +190,7 @@ MonoBehaviour:
   _blank: {fileID: 3118169986250858628, guid: b4138aeeecbd3c34c97afc952cc5aa28, type: 3}
   _marked: {fileID: 2727827721380933150, guid: b4138aeeecbd3c34c97afc952cc5aa28, type: 3}
   _empty: {fileID: 8049911259224749401, guid: b4138aeeecbd3c34c97afc952cc5aa28, type: 3}
+  _lineMaterial: {fileID: 2100000, guid: 3ec790787f7af0e4396a7eb6d29f603b, type: 2}
 --- !u!114 &59208312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,8 +345,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _board: {fileID: 59208310}
-  _horizontalSpeed: 0.05
-  _verticalSpeed: 0.05
+  _horizontalSpeed: 0.5
+  _verticalSpeed: 0.5
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -415,7 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038c95a3516c4df47975841f8c0798c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wheelSpeed: 50
+  _wheelSpeed: 200
   _minSize: 1
   _maxSize: 10
 --- !u!1 &625695922
@@ -661,7 +662,7 @@ GameObject:
   m_Layer: 0
   m_Name: NumberCells
   m_TagString: Untagged
-  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -991,7 +992,7 @@ GameObject:
   m_Layer: 0
   m_Name: Cells
   m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

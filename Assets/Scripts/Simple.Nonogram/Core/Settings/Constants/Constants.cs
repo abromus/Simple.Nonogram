@@ -8,6 +8,7 @@
         public const int RightButton = 1;
         public const int MiddleButton = 2;
         public const int ZeroCount = 0;
+        public const float Epsilon = 0.01f;
         public const char Mark = '1';
         public const string MouseAxis = "Mouse ScrollWheel";
     }

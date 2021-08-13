@@ -8,7 +8,7 @@ namespace Simple.Nonogram.Components
     [RequireComponent(typeof(Camera))]
     public class CameraZoom : MonoBehaviour
     {
-        [SerializeField] private float _wheelSpeed = 50f;
+        [SerializeField] private float _wheelSpeed = 200f;
         [SerializeField] private float _minSize = 1f;
         [SerializeField] private float _maxSize = 10f;
 
