@@ -21,7 +21,7 @@ namespace Simple.Nonogram.Core
         private List<string> LoadNonogram(string path)
         {
             List<string> lines = new List<string>();
-            int firstLineIndex = 0;
+            int firstLineIndex = (int)Number.Zero;
 
             try
             {
@@ -33,7 +33,7 @@ namespace Simple.Nonogram.Core
                     } while (stream.EndOfStream == false);
                 }
 
-                if (lines.Count > Constants.ZeroCount)
+                if (lines.Count > (int)Number.Zero)
                 {
                     Width = lines[firstLineIndex].Length;
                     Height = lines.Count;
@@ -51,16 +51,17 @@ namespace Simple.Nonogram.Core
         {
             Cell[,] cells = null;
             CellState state;
+            char mark = '1';
 
-            if (nonogramFile != null && nonogramFile.Count > Constants.ZeroCount)
+            if (nonogramFile != null && nonogramFile.Count > (int)Number.Zero)
             {
                 cells = new Cell[Height, Width];
 
-                for (int i = 0; i < Height; i++)
+                for (int i = (int)Number.Zero; i < Height; i++)
                 {
-                    for (int j = 0; j < Width; j++)
+                    for (int j = (int)Number.Zero; j < Width; j++)
                     {
-                        state = nonogramFile[i][j] == Constants.Mark ? CellState.Marked : CellState.Blank;
+                        state = nonogramFile[i][j] == mark ? CellState.Marked : CellState.Blank;
 
                         cells[i, j] = new Cell(state);
                     }
@@ -69,7 +70,7 @@ namespace Simple.Nonogram.Core
             else
             {
                 DebugExtension.LogError($"Nonogram {nonogramFile} is null ({nonogramFile == null}) or " +
-                    $"Count <= {Constants.ZeroCount} ({nonogramFile.Count <= Constants.ZeroCount}).");
+                    $"Count <= {(int)Number.Zero} ({nonogramFile.Count <= (int)Number.Zero}).");
             }
 
             return cells;

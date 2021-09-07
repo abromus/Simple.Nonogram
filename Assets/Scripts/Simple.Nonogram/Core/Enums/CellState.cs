@@ -2,7 +2,7 @@
 {
     public enum CellState
     {
-        Blank = 0,  //Пустая
+        Blank,      //Пустая
         Empty,      //Крест (X)
         Marked,     //Помечена
         Unknown,    //Знак вопроса

@@ -29,20 +29,18 @@ namespace Simple.Nonogram.Core
         public static T[,] ToArray<T>(this IEnumerable<IEnumerable<T>> source)
         {
             int width = source.Count();
-            int height = 0;
+            int height = (int)Number.Zero;
             T[,] array;
 
             foreach (IEnumerable<T> column in source)
-            {
                 if (column.Count() > height)
                     height = column.Count();
-            }
 
             array = new T[width, height];
 
-            for (int i = 0; i < source.Count(); i++)
+            for (int i = (int)Number.Zero; i < source.Count(); i++)
             {
-                for (int j = 0; j < source.ElementAt(i).Count(); j++)
+                for (int j = (int)Number.Zero; j < source.ElementAt(i).Count(); j++)
                     array[i, j] = source.ElementAt(i).ElementAt(j);
 
                 if (source.ElementAt(i).Count() < height)

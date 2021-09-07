@@ -4,50 +4,51 @@ namespace Simple.Nonogram.Core
 {
     public class NumberBoard
     {
-        private int[,] _topNumberCells;
-        private int[,] _leftNumberCells;
+        private int[,] _top;
+        private int[,] _left;
 
         private readonly Cell[,] _cells;
 
-        public int[,] TopNumberCells => _topNumberCells;
-        public int[,] LeftNumberCells => _leftNumberCells;
+        public int[,] Top => _top;
+        public int[,] Left => _left;
 
         public NumberBoard(AnswerBoard board)
         {
             _cells = board.Cells;
 
-            GenerateNumberCells();
+            GenerateCells();
         }
 
-        private void GenerateNumberCells()
+        private void GenerateCells()
         {
-            _topNumberCells = ArrayExtension.Transpose(CalculateNumberCells(true));
+            _top = ArrayExtension.Transpose(CalculateCells(true));
 
-            _leftNumberCells = CalculateNumberCells(false);
+            _left = CalculateCells(false);
         }
 
-        private int[,] CalculateNumberCells(bool isTop = true)
+        private int[,] CalculateCells(bool isTop = true)
         {
-            List<List<Cell>> grid = isTop ? Cell.ToIEnumerable(_cells).Transpose().ToLists() : Cell.ToIEnumerable(_cells).ToLists();
+            List<List<Cell>> grid = isTop ? ArrayExtension.ToIEnumerable(_cells).Transpose().ToLists() : ArrayExtension.ToIEnumerable(_cells).ToLists();
             List<List<int>> cells = new List<List<int>>();
-            int countMarked = Constants.ZeroCount;
+            int countMarked = (int)Number.Zero;
             int rowCount;
 
-            for (int i = 0; i < grid.Count; i++)
+            for (int i = (int)Number.Zero; i < grid.Count; i++)
             {
                 List<int> row = new List<int>();
 
-                for (int j = 0; j < grid[i].Count; j++)
+                for (int j = (int)Number.Zero; j < grid[i].Count; j++)
                 {
-                    rowCount = grid[i].Count - 1;
+                    rowCount = grid[i].Count - (int)Number.One;
 
-                    if (grid[i][j].State == CellState.Marked && j == rowCount || countMarked > Constants.ZeroCount && grid[i][j].State != CellState.Marked)
+                    if (grid[i][j].State == CellState.Marked && j == rowCount
+                        || countMarked > (int)Number.Zero && grid[i][j].State != CellState.Marked)
                     {
                         if (grid[i][j].State == CellState.Marked && j == rowCount)
                             countMarked++;
 
                         row.Add(countMarked);
-                        countMarked = Constants.ZeroCount;
+                        countMarked = (int)Number.Zero;
                     }
                     else if (grid[i][j].State == CellState.Marked)
                     {
@@ -55,7 +56,7 @@ namespace Simple.Nonogram.Core
                     }
                 }
 
-                countMarked = Constants.ZeroCount;
+                countMarked = (int)Number.Zero;
 
                 row.Reverse();
                 cells.Add(row);

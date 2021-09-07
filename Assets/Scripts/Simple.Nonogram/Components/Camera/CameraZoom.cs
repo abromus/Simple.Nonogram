@@ -1,5 +1,3 @@
-using Simple.Nonogram.Core;
-
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,7 +11,9 @@ namespace Simple.Nonogram.Components
         [SerializeField] private float _maxSize = 10f;
 
         private Camera _camera;
-        private float _mouseScrollWheel;
+        private float _mouseScrollWheel; 
+
+        private readonly string _mouseAxis = "Mouse ScrollWheel";
 
         private void Start()
         {
@@ -25,7 +25,7 @@ namespace Simple.Nonogram.Components
 
         private void Update()
         {
-            _mouseScrollWheel = Input.GetAxis(Constants.MouseAxis);
+            _mouseScrollWheel = Input.GetAxis(_mouseAxis);
 
             _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize + _mouseScrollWheel * _wheelSpeed * Time.deltaTime, _minSize, _maxSize);
         }

@@ -1,48 +1,52 @@
 using Simple.Nonogram.Core;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Simple.Nonogram.Components
 {
     [RequireComponent(typeof(Camera))]
     public class CameraMovement : MonoBehaviour
     {
-        [SerializeField] private BoardView _board;
-        [SerializeField] [Range(0, 1)] private float _horizontalSpeed = 0.5f;
-        [SerializeField] [Range(0, 1)] private float _verticalSpeed = 0.5f;
+        [SerializeField] private Board _board;
+        [SerializeField] [Range((float)Number.Zero, (float)Number.One)] private float _horizontalSpeed = 0.5f;
+        [SerializeField] [Range((float)Number.Zero, (float)Number.One)] private float _verticalSpeed = 0.5f;
 
         private Camera _camera;
         private Bounds _bounds;
         private Vector3 _startPosition;
-        private int _moveButton = Constants.MiddleButton;
 
         private void Start()
         {
             _camera = GetComponent<Camera>();
 
-            CalculateBounds();
-
-            if (_bounds.min.x < _board.Bounds.min.x && _bounds.max.x > _board.Bounds.max.x && _bounds.min.y == _board.Bounds.min.y)
-                transform.position = new Vector3(_bounds.max.x, _bounds.min.y, _camera.transform.position.z);
-            else if (_bounds.min.x < _board.Bounds.min.x && _bounds.max.x > _board.Bounds.max.x && _bounds.min.y > _board.Bounds.min.y)
-                transform.position = new Vector3(_bounds.max.x, _bounds.max.y, _camera.transform.position.z);
-            else if (_bounds.min.x > _board.Bounds.min.x && _bounds.max.x < _board.Bounds.max.x && _bounds.min.y == _board.Bounds.min.y)
-                transform.position = new Vector3(_bounds.min.x, _bounds.min.y, _camera.transform.position.z);
-            else if (_bounds.min.x > _board.Bounds.min.x && _bounds.max.x < _board.Bounds.max.x)
-                transform.position = new Vector3(_bounds.min.x, _bounds.max.y, _camera.transform.position.z);
+            Initialize();
         }
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(_moveButton))
+            if (Input.GetMouseButtonDown((int)PointerEventData.InputButton.Middle))
                 _startPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-            else if (Input.GetMouseButton(_moveButton))
+            else if (Input.GetMouseButton((int)PointerEventData.InputButton.Middle))
                 Move();
+        }
+
+        private void Initialize()
+        {
+            CalculateBounds();
+
+            Vector2 topLeft = _camera.ScreenToWorldPoint(new Vector2((int)Number.Zero, _camera.pixelHeight));
+            float x = _board.Bounds.min.x - topLeft.x - _board.SpriteSize.Width;
+            float y = _board.Bounds.max.y - topLeft.y + _board.SpriteSize.Height;
+
+            transform.position = new Vector3(Mathf.Clamp(x, _bounds.min.x, _bounds.max.x),
+                                             Mathf.Clamp(y, _bounds.min.y, _bounds.max.y),
+                                             transform.position.z);
         }
 
         private void CalculateBounds()
         {
-            Vector2 bottomLeft = _camera.ScreenToWorldPoint(new Vector2(0, 0));
+            Vector2 bottomLeft = _camera.ScreenToWorldPoint(new Vector2((int)Number.Zero, (int)Number.Zero));
             Vector2 topRight = _camera.ScreenToWorldPoint(new Vector2(_camera.pixelWidth, _camera.pixelHeight));
             float x1 = _board.Bounds.min.x - bottomLeft.x - _board.SpriteSize.Width;
             float x2 = _board.Bounds.max.x - topRight.x + _board.SpriteSize.Width;

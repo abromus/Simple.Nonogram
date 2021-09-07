@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace Simple.Nonogram.Core
 {
@@ -18,30 +17,10 @@ namespace Simple.Nonogram.Core
 
         public void SetState(CellState state)
         {
-            string message = $"InvalidEnumArgumentException: (CellState = {state}). {state} not found in {typeof(CellState)}";
-
             if (Enum.IsDefined(typeof(CellState), state) && State != state)
                 _state = state;
             else
-                DebugExtension.LogError(message);
-        }
-
-        public static IEnumerable<IEnumerable<Cell>> ToIEnumerable(Cell[,] source)
-        {
-            List<List<Cell>> result = new List<List<Cell>>();
-            List<Cell> row;
-
-            for (int i = 0; i < source.GetLength(Constants.WidthDimension); i++)
-            {
-                row = new List<Cell>();
-
-                for (int j = 0; j < source.GetLength(Constants.HeightDimension); j++)
-                    row.Add(source[i, j]);
-
-                result.Add(row);
-            }
-
-            return result;
+                DebugExtension.LogError($"InvalidEnumArgumentException: ({state} not found in {typeof(CellState)}");
         }
     }
 }

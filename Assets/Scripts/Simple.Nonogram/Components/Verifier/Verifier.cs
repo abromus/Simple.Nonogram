@@ -1,33 +1,52 @@
 ﻿using System;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Simple.Nonogram.Components
 {
-    [RequireComponent(typeof(BoardView))]
+    [RequireComponent(typeof(Board))]
     public class Verifier : MonoBehaviour
     {
+        private Board _board;
         private Core.Verifier _verifier;
-        private BoardView _boardView;
 
-        public event Action<Vector3> MarkMistake;
-        public event Action<Vector3> RemoveMistake;
+        public bool[,] MistakeBoard => _verifier.MistakeBoard;
+
+        public event Action<Vector2Int> MarkMistake;
+        public event Action<Vector2Int> RemoveMistake;
+
+        private void Awake()
+        {
+            _board = GetComponent<Board>();
+        }
 
         private void Start()
         {
-            _boardView = GetComponent<BoardView>();
+            _verifier = new Core.Verifier(_board.AnswerBoard, _board.UserBoard);
 
-            _verifier = new Core.Verifier(_boardView);
+            _board.BoardClicked += OnClicked;
             _verifier.MarkMistake += OnMarkMistake;
             _verifier.RemoveMistake += OnRemoveMistake;
         }
 
-        private void OnMarkMistake(Vector3 position)
+        private void CheckCell(Vector2Int coordinate)
+        {
+            _verifier.CheckCell(coordinate);
+        }
+
+        private void OnClicked(Vector3 position, PointerEventData.InputButton arg2)
+        {
+            if (Core.ArrayExtension.TryFindCell(_board.UserBoardView, position, out Vector2Int coordinate))
+                CheckCell(coordinate);
+        }
+
+        private void OnMarkMistake(Vector2Int position)
         {
             MarkMistake?.Invoke(position);
         }
 
-        private void OnRemoveMistake(Vector3 position)
+        private void OnRemoveMistake(Vector2Int position)
         {
             RemoveMistake?.Invoke(position);
         }

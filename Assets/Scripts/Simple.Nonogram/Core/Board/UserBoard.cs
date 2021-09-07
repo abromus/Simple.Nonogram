@@ -14,8 +14,8 @@ namespace Simple.Nonogram.Core
         {
             Cells = new Cell[Height, Width];
 
-            for (int i = 0; i < Height; i++)
-                for (int j = 0; j < Width; j++)
+            for (int i = (int)Number.Zero; i < Height; i++)
+                for (int j = (int)Number.Zero; j < Width; j++)
                     Cells[i, j] = new Cell();
         }
     }
