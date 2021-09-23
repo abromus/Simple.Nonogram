@@ -20,8 +20,9 @@ namespace Simple.Nonogram.Core
 
         private List<string> LoadNonogram(string path)
         {
+            const int firstLineIndex = (int)Number.Zero;
+
             List<string> lines = new List<string>();
-            int firstLineIndex = (int)Number.Zero;
 
             try
             {
@@ -49,11 +50,12 @@ namespace Simple.Nonogram.Core
 
         private Cell[,] ParseNonogram(List<string> nonogramFile)
         {
+            const char mark = '1';
+
             Cell[,] cells = null;
             CellState state;
-            char mark = '1';
 
-            if (nonogramFile != null && nonogramFile.Count > (int)Number.Zero)
+            if (nonogramFile?.Count > (int)Number.Zero)
             {
                 cells = new Cell[Height, Width];
 
@@ -70,7 +72,7 @@ namespace Simple.Nonogram.Core
             else
             {
                 DebugExtension.LogError($"Nonogram {nonogramFile} is null ({nonogramFile == null}) or " +
-                    $"Count <= {(int)Number.Zero} ({nonogramFile.Count <= (int)Number.Zero}).");
+                    $"Count <= {(int)Number.Zero} ({nonogramFile?.Count <= (int)Number.Zero}).");
             }
 
             return cells;

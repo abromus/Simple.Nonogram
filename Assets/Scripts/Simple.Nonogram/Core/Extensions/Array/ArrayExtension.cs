@@ -31,7 +31,7 @@ namespace Simple.Nonogram.Core
                         coordinate = new Vector2Int(i, j);
                         isFind = true;
 
-                        return isFind;
+                        break;
                     }
 
             return isFind;

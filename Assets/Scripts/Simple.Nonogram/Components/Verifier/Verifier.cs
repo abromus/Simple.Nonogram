@@ -19,12 +19,11 @@ namespace Simple.Nonogram.Components
         private void Awake()
         {
             _board = GetComponent<Board>();
+            _verifier = new Core.Verifier(_board.AnswerBoard, _board.UserBoard);
         }
 
         private void Start()
         {
-            _verifier = new Core.Verifier(_board.AnswerBoard, _board.UserBoard);
-
             _board.BoardClicked += OnClicked;
             _verifier.MarkMistake += OnMarkMistake;
             _verifier.RemoveMistake += OnRemoveMistake;

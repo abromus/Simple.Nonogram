@@ -67,8 +67,9 @@ namespace Simple.Nonogram.Components
 
         private void InitializeNumberBoards()
         {
-            string nameTop = "Top";
-            string nameLeft = "Left";
+            const string nameTop = "Top";
+            const string nameLeft = "Left";
+
             Vector3 startPositionTop = transform.position;
             Vector3 startPositionLeft = transform.position;
             Vector2 directionTop = Vector2.up;
@@ -88,7 +89,7 @@ namespace Simple.Nonogram.Components
 
             if (_cellPrefab.TryGetComponent(out SpriteRenderer spriteRenderer))
             {
-                int digits = (int)Number.Two;
+                const int digits = (int)Number.Two;
 
                 widthSprite = Convert.ToSingle(Math.Round(spriteRenderer.sprite.rect.width / spriteRenderer.sprite.pixelsPerUnit, digits));
                 heightSprite = Convert.ToSingle(Math.Round(spriteRenderer.sprite.rect.height / spriteRenderer.sprite.pixelsPerUnit, digits));
@@ -145,11 +146,12 @@ namespace Simple.Nonogram.Components
 
         private void CalculateBounds()
         {
+            const int containerIndex = (int)Number.Zero;
+            const int topContainerIndex = (int)Number.Zero;
+            const int leftContainerIndex = (int)Number.One;
+
             Vector2Int topCellsSize = new Vector2Int(_top.GetLength((int)Dimension.Width), _top.GetLength((int)Dimension.Height));
             Vector2Int leftCellsSize = new Vector2Int(_left.GetLength((int)Dimension.Width), _left.GetLength((int)Dimension.Height));
-            int containerIndex = (int)Number.Zero;
-            int topContainerIndex = (int)Number.Zero;
-            int leftContainerIndex = (int)Number.One;
             int topCellIndex = topCellsSize.x * topCellsSize.y - (int)Number.One;
             int leftCellIndex = leftCellsSize.y * leftCellsSize.x - (int)Number.One;
 

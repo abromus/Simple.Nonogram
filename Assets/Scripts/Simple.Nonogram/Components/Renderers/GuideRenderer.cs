@@ -15,17 +15,15 @@ namespace Simple.Nonogram.Components
         private readonly Color _hoverTopCellColor = new Color(0.33f, 0.3f, 0.3f);
         private readonly Color _hoverLeftCellColor = new Color(0.33f, 0.3f, 0.3f);
 
-        public Color DefaultCellColor => _defaultCellColor;
-        public Color HoverCellColor => _hoverCellColor;
-
         public GuideRenderer(Board board, Verifier verifier)
         {
             _board = board;
-            _mistakeBoard = verifier.MistakeBoard;
 
             _defaultCellColor = _board.UserBoardView[(int)Number.Zero, (int)Number.Zero].GetComponent<SpriteRenderer>().color;
             _defaultTopCellColor = _board.Top[(int)Number.Zero, (int)Number.Zero].GetComponent<SpriteRenderer>().color;
             _defaultLeftCellColor = _board.Left[(int)Number.Zero, (int)Number.Zero].GetComponent<SpriteRenderer>().color;
+
+            _mistakeBoard = verifier.MistakeBoard;
         }
 
         public void DrawGuides(Vector3 position, bool isHover = false)

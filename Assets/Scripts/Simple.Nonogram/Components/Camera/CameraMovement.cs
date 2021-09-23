@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 namespace Simple.Nonogram.Components
 {
     [RequireComponent(typeof(Camera))]
+    [RequireComponent(typeof(CameraZoom))]
     public class CameraMovement : MonoBehaviour
     {
         [SerializeField] private Board _board;
@@ -13,12 +14,18 @@ namespace Simple.Nonogram.Components
         [SerializeField] [Range((float)Number.Zero, (float)Number.One)] private float _verticalSpeed = 0.5f;
 
         private Camera _camera;
-        private Bounds _bounds;
+        private CameraBounds _cameraBounds;
+        private CameraZoom _zoom;
         private Vector3 _startPosition;
+        private Bounds _currentBounds;
+        private BoundsStrategy _boundsStrategy;
 
         private void Start()
         {
             _camera = GetComponent<Camera>();
+            _zoom = GetComponent<CameraZoom>();
+            _zoom.ZoomChanged += OnZoomChanged;
+            _cameraBounds = new CameraBounds(_camera, _board.Bounds, _board.SpriteSize);
 
             Initialize();
         }
@@ -33,29 +40,38 @@ namespace Simple.Nonogram.Components
 
         private void Initialize()
         {
-            CalculateBounds();
-
             Vector2 topLeft = _camera.ScreenToWorldPoint(new Vector2((int)Number.Zero, _camera.pixelHeight));
             float x = _board.Bounds.min.x - topLeft.x - _board.SpriteSize.Width;
             float y = _board.Bounds.max.y - topLeft.y + _board.SpriteSize.Height;
 
-            transform.position = new Vector3(Mathf.Clamp(x, _bounds.min.x, _bounds.max.x),
-                                             Mathf.Clamp(y, _bounds.min.y, _bounds.max.y),
-                                             transform.position.z);
+            transform.position = new Vector3(Mathf.Clamp(x, _cameraBounds.Min.x, _cameraBounds.Max.x),
+                                            Mathf.Clamp(y, _cameraBounds.Min.y, _cameraBounds.Max.y),
+                                            transform.position.z);
+
+            DefineStrategy();
         }
 
-        private void CalculateBounds()
+        private void DefineStrategy()
         {
-            Vector2 bottomLeft = _camera.ScreenToWorldPoint(new Vector2((int)Number.Zero, (int)Number.Zero));
-            Vector2 topRight = _camera.ScreenToWorldPoint(new Vector2(_camera.pixelWidth, _camera.pixelHeight));
-            float x1 = _board.Bounds.min.x - bottomLeft.x - _board.SpriteSize.Width;
-            float x2 = _board.Bounds.max.x - topRight.x + _board.SpriteSize.Width;
-            float y1 = _board.Bounds.min.y - bottomLeft.y - _board.SpriteSize.Height;
-            float y2 = _board.Bounds.max.y - topRight.y + _board.SpriteSize.Height;
-            float z = _camera.transform.position.z;
+            if (_board.Bounds.min.x > _cameraBounds.Min.x)
+            {
+                if (_board.Bounds.min.y == _cameraBounds.Min.y && _board.Bounds.max.y == _cameraBounds.Max.y)
+                    SetStrategy(new SmallBoardStrategy(_camera, _cameraBounds));
+                else
+                    SetStrategy(new HighBoardStrategy(_camera, _cameraBounds));
+            }
+            else
+            {
+                if (_cameraBounds.Max.y > (int)Number.Zero)
+                    SetStrategy(new WideBoardStrategy(_camera, _cameraBounds));
+                else
+                    SetStrategy(new BigBoardStrategy(_camera, _cameraBounds));
+            }
+        }
 
-            _bounds.min = new Vector3(Mathf.Min(x1, x2), Mathf.Min(y1, y2), z);
-            _bounds.max = new Vector3(Mathf.Max(x1, x2), Mathf.Max(y1, y2), z);
+        private void SetStrategy(BoundsStrategy strategy)
+        {
+            _boundsStrategy = strategy;
         }
 
         private void Move()
@@ -63,9 +79,16 @@ namespace Simple.Nonogram.Components
             float positionX = _camera.ScreenToWorldPoint(Input.mousePosition).x - _startPosition.x;
             float positionY = _camera.ScreenToWorldPoint(Input.mousePosition).y - _startPosition.y;
 
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x - positionX * _horizontalSpeed, _bounds.min.x, _bounds.max.x),
-                                             Mathf.Clamp(transform.position.y - positionY * _verticalSpeed, _bounds.min.y, _bounds.max.y),
-                                             transform.position.z);
+            _currentBounds = _boundsStrategy.Calculate();
+
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x - positionX * _horizontalSpeed, _currentBounds.min.x, _currentBounds.max.x),
+                Mathf.Clamp(transform.position.y - positionY * _verticalSpeed, _currentBounds.min.y, _currentBounds.max.y),
+                transform.position.z);
+        }
+
+        private void OnZoomChanged()
+        {
+            Move();
         }
     }
 }

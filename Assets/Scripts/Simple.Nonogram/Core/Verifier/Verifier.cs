@@ -7,7 +7,6 @@ namespace Simple.Nonogram.Core
     public class Verifier
     {
         private readonly bool[,] _mistakeBoard;
-
         private readonly AnswerBoard _answerBoard;
         private readonly UserBoard _userBoard;
 
@@ -18,17 +17,17 @@ namespace Simple.Nonogram.Core
 
         public Verifier(AnswerBoard answerBoard, UserBoard userBoard)
         {
+            _mistakeBoard = new bool[answerBoard.Height, answerBoard.Width];
+            InitializeMistakeBoard();
+
             _answerBoard = answerBoard;
             _userBoard = userBoard;
-            _mistakeBoard = new bool[_answerBoard.Height, _answerBoard.Width];
-
-            InitializeMistakeBoard();
         }
 
         public void CheckCell(Vector2Int coordinate)
         {
-            if (_userBoard.Cells[coordinate.x, coordinate.y].State == CellState.Marked 
-                && _userBoard.Cells[coordinate.x, coordinate.y].State != _answerBoard.Cells[coordinate.x, coordinate.y].State)
+            if (_userBoard.Cells[coordinate.x, coordinate.y].State == CellState.Marked &&
+                _userBoard.Cells[coordinate.x, coordinate.y].State != _answerBoard.Cells[coordinate.x, coordinate.y].State)
             {
                 _mistakeBoard[coordinate.x, coordinate.y] = true;
                 MarkMistake?.Invoke(coordinate);

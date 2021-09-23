@@ -24,17 +24,18 @@ namespace Simple.Nonogram.Components
             _start = start;
             _end = end;
             _width = 0.05f;
-            _offsetX = _board.SpriteSize.Width / (int)Number.Two; ;
+            _offsetX = _board.SpriteSize.Width / (int)Number.Two;
             _offsetY = _board.SpriteSize.Height / (int)Number.Two;
         }
 
         public void Draw()
         {
-            string auxiliaryLines = "Auxiliary lines";
-            string verticalLines = "Vertical lines";
-            string horizontalLines = "Horizontal lines";
-            string userBoardName = "UserBoard line";
-            string numberBoardName = "NumberBoard line";
+            const string auxiliaryLines = "Auxiliary lines";
+            const string verticalLines = "Vertical lines";
+            const string horizontalLines = "Horizontal lines";
+            const string userBoardName = "UserBoard line";
+            const string numberBoardName = "NumberBoard line";
+
             GameObject auxiliaryLine = new GameObject(auxiliaryLines);
             GameObject verticalLinesContainer = new GameObject(verticalLines);
             GameObject horizontalLinesContainer = new GameObject(horizontalLines);
@@ -71,8 +72,9 @@ namespace Simple.Nonogram.Components
 
         private void DrawLines(ICell[,] cells, GameObject container, string name, Direction verticalDirection = Direction.Positive, Direction horizonralDirection = Direction.Positive)
         {
+            const int stepDivision = (int)Number.Five;
+
             ICell[,] tempCells = verticalDirection == Direction.Positive ? cells : ArrayExtension.Transpose(cells);
-            int stepDivision = (int)Number.Five;
             int count = (int)Mathf.Ceil((float)tempCells.GetLength((int)Dimension.Height) / stepDivision - (int)Number.One);
             int lineIndex = (int)Number.Zero;
 
@@ -87,9 +89,8 @@ namespace Simple.Nonogram.Components
 
         private LineRenderer GetLine(string name, GameObject linesContainer)
         {
-            LineRenderer line;
+            LineRenderer line = new GameObject(name).AddComponent<LineRenderer>();
 
-            line = new GameObject(name).AddComponent<LineRenderer>();
             line.transform.parent = linesContainer.transform;
             line.material = _material;
             line.startColor = _start;
@@ -102,15 +103,16 @@ namespace Simple.Nonogram.Components
 
         private void DrawLine(LineRenderer line, ICell[,] cells, int lineIndex, int stepDivision, Direction vertical, Direction horizonral)
         {
-            int firstXIndex = (int)Number.Zero;
-            int lastXIndex = (int)(cells.GetLength((int)Dimension.Width) - Number.One);
-            int yIndex = lineIndex * stepDivision;
-            int firstPoint = (int)Number.Zero;
-            int secondPoint = (int)Number.One;
+            const int firstXIndex = (int)Number.Zero;
+            const int firstPoint = (int)Number.Zero;
+            const int secondPoint = (int)Number.One;
+
             Direction startDirectionOffsetX = vertical == Direction.Negative && horizonral == Direction.Positive ? Direction.Positive : Direction.Negative;
             Direction endDirectionOffsetX = vertical == Direction.Negative && horizonral == Direction.Negative ? Direction.Positive : Direction.Negative;
             Direction startDirectionOffsetY = vertical == Direction.Positive && horizonral == Direction.Positive ? Direction.Negative : Direction.Positive;
             Direction endDirectionOffsetY = vertical == Direction.Positive && horizonral == Direction.Negative ? Direction.Negative : Direction.Positive;
+            int lastXIndex = (int)(cells.GetLength((int)Dimension.Width) - Number.One);
+            int yIndex = lineIndex * stepDivision;
 
             line.SetPosition(secondPoint, GetPoint(cells, firstXIndex, yIndex, startDirectionOffsetX, startDirectionOffsetY));
             line.SetPosition(firstPoint, GetPoint(cells, lastXIndex, yIndex, endDirectionOffsetX, endDirectionOffsetY));
@@ -118,7 +120,8 @@ namespace Simple.Nonogram.Components
 
         private Vector3 GetPoint(ICell[,] cells, int xIndex, int yIndex, Direction directionOffsetX, Direction directionOffsetY)
         {
-            float epsilon = 0.01f;
+            const float epsilon = 0.01f;
+
             float x = ((MonoBehaviour)cells[xIndex, yIndex]).transform.position.x + (float)directionOffsetX * _offsetX;
             float y = ((MonoBehaviour)cells[xIndex, yIndex]).transform.position.y + (float)directionOffsetY * _offsetY;
             float z = ((MonoBehaviour)cells[xIndex, yIndex]).transform.position.z - epsilon;
