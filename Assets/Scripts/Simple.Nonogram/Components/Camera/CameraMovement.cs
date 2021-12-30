@@ -1,5 +1,4 @@
 using Simple.Nonogram.Core;
-
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -81,7 +80,8 @@ namespace Simple.Nonogram.Components
 
             _currentBounds = _boundsStrategy.Calculate();
 
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x - positionX * _horizontalSpeed, _currentBounds.min.x, _currentBounds.max.x),
+            transform.position = new Vector3(
+                Mathf.Clamp(transform.position.x - positionX * _horizontalSpeed, _currentBounds.min.x, _currentBounds.max.x),
                 Mathf.Clamp(transform.position.y - positionY * _verticalSpeed, _currentBounds.min.y, _currentBounds.max.y),
                 transform.position.z);
         }

@@ -1,5 +1,4 @@
 ﻿using Simple.Nonogram.Core;
-
 using UnityEngine;
 
 namespace Simple.Nonogram.Components

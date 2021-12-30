@@ -1,5 +1,4 @@
 ﻿using Simple.Nonogram.Core;
-
 using UnityEngine;
 
 namespace Simple.Nonogram.Components
@@ -34,16 +33,16 @@ namespace Simple.Nonogram.Components
 
             if (ArrayExtension.TryFindCell(_board.UserBoardView, position, out Vector2Int coordinate))
             {
-                for (int i = 0; i < _board.UserBoardView.GetLength((int)Dimension.Width); i++)
+                for (int i = (int)Number.Zero; i < _board.UserBoardView.GetLength((int)Dimension.Width); i++)
                     _board.UserBoardView[i, coordinate.y].GetComponent<SpriteRenderer>().color = _mistakeBoard[i, coordinate.y] ? Color.red : cellColor;
 
-                for (int j = 0; j < _board.UserBoardView.GetLength((int)Dimension.Height); j++)
+                for (int j = (int)Number.Zero; j < _board.UserBoardView.GetLength((int)Dimension.Height); j++)
                     _board.UserBoardView[coordinate.x, j].GetComponent<SpriteRenderer>().color = _mistakeBoard[coordinate.x, j] ? Color.red : cellColor;
 
-                for (int i = 0; i < _board.Top.GetLength((int)Dimension.Width); i++)
+                for (int i = (int)Number.Zero; i < _board.Top.GetLength((int)Dimension.Width); i++)
                     _board.Top[i, coordinate.y].GetComponent<SpriteRenderer>().color = topNumberCellColor;
 
-                for (int j = 0; j < _board.Left.GetLength((int)Dimension.Height); j++)
+                for (int j = (int)Number.Zero; j < _board.Left.GetLength((int)Dimension.Height); j++)
                     _board.Left[coordinate.x, j].GetComponent<SpriteRenderer>().color = leftNumberCellColor;
             }
         }

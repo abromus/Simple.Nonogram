@@ -1,7 +1,5 @@
 ﻿using System;
-
 using Simple.Nonogram.Core;
-
 using UnityEngine;
 
 namespace Simple.Nonogram.Components
@@ -22,9 +20,9 @@ namespace Simple.Nonogram.Components
             _cameraBounds = cameraBounds;
             _defaultOrthographicSize = camera.orthographicSize;
 
-            _signX1 = signs.Item1 ? 1 : -1;
+            _signX1 = signs.Item1 ? (int)Number.One : (int)Number.MinusOne;
             _signX2 = (int)Number.MinusOne * _signX1;
-            _signY1 = signs.Item2 ? 1 : -1;
+            _signY1 = signs.Item2 ? (int)Number.One : (int)Number.MinusOne;
             _signY2 = (int)Number.MinusOne * _signY1;
         }
 

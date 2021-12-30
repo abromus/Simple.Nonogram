@@ -1,9 +1,6 @@
 using System;
-
 using Simple.Nonogram.Core;
-
 using TMPro;
-
 using UnityEngine;
 using UnityEngine.EventSystems;
 
