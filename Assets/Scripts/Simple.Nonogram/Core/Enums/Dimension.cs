@@ -2,7 +2,7 @@
 {
     public enum Dimension
     {
-        Width = 0,
-        Height = 1
+        Width = Number.Zero,
+        Height = Number.One
     }
 }

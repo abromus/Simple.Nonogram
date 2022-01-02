@@ -1,4 +1,5 @@
 using System;
+using Simple.Nonogram.Extension;
 
 namespace Simple.Nonogram.Core
 {

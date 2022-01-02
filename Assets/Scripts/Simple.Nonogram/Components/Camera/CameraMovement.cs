@@ -43,9 +43,10 @@ namespace Simple.Nonogram.Components
             float x = _board.Bounds.min.x - topLeft.x - _board.SpriteSize.Width;
             float y = _board.Bounds.max.y - topLeft.y + _board.SpriteSize.Height;
 
-            transform.position = new Vector3(Mathf.Clamp(x, _cameraBounds.Min.x, _cameraBounds.Max.x),
-                                            Mathf.Clamp(y, _cameraBounds.Min.y, _cameraBounds.Max.y),
-                                            transform.position.z);
+            transform.position = new Vector3(
+                Mathf.Clamp(x, _cameraBounds.Min.x, _cameraBounds.Max.x),
+                Mathf.Clamp(y, _cameraBounds.Min.y, _cameraBounds.Max.y),
+                transform.position.z);
 
             DefineStrategy();
         }

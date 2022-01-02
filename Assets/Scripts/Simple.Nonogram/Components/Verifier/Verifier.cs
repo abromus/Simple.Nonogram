@@ -1,4 +1,5 @@
 ﻿using System;
+using Simple.Nonogram.Extension;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -35,7 +36,7 @@ namespace Simple.Nonogram.Components
 
         private void OnClicked(Vector3 position, PointerEventData.InputButton arg2)
         {
-            if (Core.ArrayExtension.TryFindCell(_board.UserBoardView, position, out Vector2Int coordinate))
+            if (ArrayExtension.TryFindCell(_board.UserBoardView, position, out Vector2Int coordinate))
                 CheckCell(coordinate);
         }
 

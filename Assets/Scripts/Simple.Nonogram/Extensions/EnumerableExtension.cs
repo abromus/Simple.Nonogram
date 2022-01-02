@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Simple.Nonogram.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Simple.Nonogram.Core
+namespace Simple.Nonogram.Extension
 {
     public static class EnumerableExtension
     {
@@ -23,7 +24,7 @@ namespace Simple.Nonogram.Core
 
         public static List<List<T>> ToLists<T>(this IEnumerable<IEnumerable<T>> source)
         {
-            return source.Select(i => i.ToList()).ToList();
+            return source.Select(e => e.ToList()).ToList();
         }
 
         public static T[,] ToArray<T>(this IEnumerable<IEnumerable<T>> source)

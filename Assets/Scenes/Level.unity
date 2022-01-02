@@ -171,10 +171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26d7b33283524d148bf0c60ae299aa61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pathToFile: \Trash\Nonograms\8.txt
+  _config: {fileID: 11400000, guid: cda5289c30a28304d89d56de07f92464, type: 2}
   _cellPrefab: {fileID: 1238929849646127058, guid: b16e50537b7ca334ea016fc1701fdec3, type: 3}
-  _numberCellPrefab: {fileID: 2636979842936652728, guid: 2290af09f3a97b3489ce87130c1374bf, type: 3}
   _cellsContainer: {fileID: 1672967686}
+  _numberCellPrefab: {fileID: 2636979842936652728, guid: 2290af09f3a97b3489ce87130c1374bf, type: 3}
   _numberCellsContainer: {fileID: 995310518}
 --- !u!114 &59208311
 MonoBehaviour:

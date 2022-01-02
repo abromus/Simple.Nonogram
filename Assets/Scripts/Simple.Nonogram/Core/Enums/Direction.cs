@@ -2,7 +2,7 @@
 {
     public enum Direction
     {
-        Negative = -1,
-        Positive = 1
+        Negative = Number.MinusOne,
+        Positive = Number.One
     }
 }

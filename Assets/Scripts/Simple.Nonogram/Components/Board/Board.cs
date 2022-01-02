@@ -1,5 +1,6 @@
 using System;
 using Simple.Nonogram.Core;
+using Simple.Nonogram.Extension;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,10 +9,12 @@ namespace Simple.Nonogram.Components
 {
     public class Board : MonoBehaviour
     {
-        [SerializeField] private string _pathToFile;
+        [SerializeField] private NonogramConfig _config;
+        [Space]
         [SerializeField] private Cell _cellPrefab;
-        [SerializeField] private NumberCell _numberCellPrefab;
         [SerializeField] private Transform _cellsContainer;
+        [Space]
+        [SerializeField] private NumberCell _numberCellPrefab;
         [SerializeField] private Transform _numberCellsContainer;
 
         private AnswerBoard _answerBoard;
@@ -34,14 +37,14 @@ namespace Simple.Nonogram.Components
         public SizeF SpriteSize => _spriteSize;
 
         public event Action<Vector3, PointerEventData.InputButton> BoardClicked;
-        public event Action<Vector3> BoardHoveredBegin;
-        public event Action<Vector3> BoardHoveredEnd;
         public event Action<Vector3, PointerEventData.InputButton> TopClicked;
         public event Action<Vector3, PointerEventData.InputButton> LeftClicked;
+        public event Action<Vector3> BoardHoveredBegin;
+        public event Action<Vector3> BoardHoveredEnd;
 
         private void Awake()
         {
-            _answerBoard = new AnswerBoard(_pathToFile);
+            _answerBoard = new AnswerBoard(_config.PathToFile);
             _userBoard = new UserBoard(_answerBoard);
             _numberBoard = new NumberBoard(_answerBoard);
 
@@ -119,13 +122,14 @@ namespace Simple.Nonogram.Components
             InitializeNumberCells(_left, name, _numberCellPrefab, startPosition, direction, _numberBoard.Left, OnLeftPointerDown);
         }
 
-        private void InitializeNumberCells(NumberCell[,] cellsView,
-                                        string name,
-                                        NumberCell prefab,
-                                        Vector3 startPosition,
-                                        Vector2 direction,
-                                        int[,] cells,
-                                        Action<Vector3, PointerEventData.InputButton> onPointerDown)
+        private void InitializeNumberCells(
+            NumberCell[,] cellsView,
+            string name,
+            NumberCell prefab,
+            Vector3 startPosition,
+            Vector2 direction,
+            int[,] cells,
+            Action<Vector3, PointerEventData.InputButton> onPointerDown)
         {
             GameObject ñontainer = new GameObject(name);
             ñontainer.transform.parent = _numberCellsContainer.transform;

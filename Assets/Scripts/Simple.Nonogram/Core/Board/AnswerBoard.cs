@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
+using Simple.Nonogram.Extension;
 
 namespace Simple.Nonogram.Core
 {
@@ -9,12 +8,12 @@ namespace Simple.Nonogram.Core
     {
         public AnswerBoard(string pathToFile)
         {
-            Initialize(Application.dataPath + pathToFile);
+            Initialize(pathToFile);
         }
 
-        private void Initialize(string pathToFile)
+        private void Initialize(string path)
         {
-            Cells = ParseNonogram(LoadNonogram(pathToFile));
+            Cells = ParseNonogram(LoadNonogram(path));
         }
 
         private List<string> LoadNonogram(string path)
@@ -25,15 +24,9 @@ namespace Simple.Nonogram.Core
 
             try
             {
-                using (StreamReader stream = new StreamReader(path))
-                {
-                    do
-                    {
-                        lines.Add(stream.ReadLine());
-                    } while (stream.EndOfStream == false);
-                }
+                lines = NonogramFile.LoadFile(path);
 
-                if (lines.Count > (int)Number.Zero)
+                if (lines?.Count > (int)Number.Zero)
                 {
                     Width = lines[firstLineIndex].Length;
                     Height = lines.Count;
@@ -41,7 +34,7 @@ namespace Simple.Nonogram.Core
             }
             catch (Exception exception)
             {
-                DebugExtension.LogError($"LoadNonogram: {exception.Message}.");
+                DebugExtension.LogError($"AnswerBoard.LoadNonogram: {exception.Message}.");
             }
 
             return lines;
@@ -52,21 +45,14 @@ namespace Simple.Nonogram.Core
             const char mark = '1';
 
             Cell[,] cells = null;
-            CellState state;
 
             if (nonogramFile?.Count > (int)Number.Zero)
             {
                 cells = new Cell[Height, Width];
 
                 for (int i = (int)Number.Zero; i < Height; i++)
-                {
                     for (int j = (int)Number.Zero; j < Width; j++)
-                    {
-                        state = nonogramFile[i][j] == mark ? CellState.Marked : CellState.Blank;
-
-                        cells[i, j] = new Cell(state);
-                    }
-                }
+                        cells[i, j] = new Cell(nonogramFile[i][j] == mark ? CellState.Marked : CellState.Blank);
             }
             else
             {

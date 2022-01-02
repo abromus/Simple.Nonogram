@@ -1,4 +1,4 @@
-﻿using Simple.Nonogram.Core;
+﻿using Simple.Nonogram.Extension;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

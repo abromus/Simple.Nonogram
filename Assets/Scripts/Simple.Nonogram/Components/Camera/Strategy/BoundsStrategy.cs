@@ -35,7 +35,8 @@ namespace Simple.Nonogram.Components
             float y2 = _cameraBounds.Max.y + _signY2 * differenceOrthographicSize;
             float z = _camera.transform.position.z;
 
-            return new Bounds {
+            return new Bounds
+            {
                 min = new Vector3(Mathf.Min(x1, x2), Mathf.Min(y1, y2), z),
                 max = new Vector3(Mathf.Max(x1, x2), Mathf.Max(y1, y2), z)
             };

@@ -25,8 +25,8 @@ namespace Simple.Nonogram.Core
 
         public void CheckCell(Vector2Int coordinate)
         {
-            if (_userBoard.Cells[coordinate.x, coordinate.y].State == CellState.Marked &&
-                _userBoard.Cells[coordinate.x, coordinate.y].State != _answerBoard.Cells[coordinate.x, coordinate.y].State)
+            if (_userBoard.Cells[coordinate.x, coordinate.y].State == CellState.Marked
+                && _userBoard.Cells[coordinate.x, coordinate.y].State != _answerBoard.Cells[coordinate.x, coordinate.y].State)
             {
                 _mistakeBoard[coordinate.x, coordinate.y] = true;
                 MarkMistake?.Invoke(coordinate);

@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Simple.Nonogram.Core;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace Simple.Nonogram.Core
+namespace Simple.Nonogram.Extension
 {
     public static class ArrayExtension
     {
@@ -62,11 +63,12 @@ namespace Simple.Nonogram.Core
             for (int i = (int)Number.Zero; i < array.GetLength((int)Dimension.Width); i++)
                 for (int j = (int)Number.Zero; j < array.GetLength((int)Dimension.Height); j++)
                 {
-                    array[i, j] = Object.Instantiate(prefab,
-                                              new Vector3(startPosition.x + directionX * j * spriteSize.Width,
-                                                          startPosition.y + directionY * i * spriteSize.Height,
-                                                          startPosition.z),
-                                              Quaternion.identity);
+                    array[i, j] = Object.Instantiate(
+                        prefab,
+                        new Vector3(startPosition.x + directionX * j * spriteSize.Width,
+                                    startPosition.y + directionY * i * spriteSize.Height,
+                                    startPosition.z),
+                        Quaternion.identity);
 
                     array[i, j].transform.parent = parent;
                 }
