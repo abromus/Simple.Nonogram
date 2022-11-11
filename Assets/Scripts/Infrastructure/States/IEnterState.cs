@@ -1,4 +1,4 @@
-﻿namespace Simple.Nonogram.Infrastructure
+﻿namespace Simple.Nonogram.Infrastructure.States
 {
     public interface IEnterState : IExitState
     {

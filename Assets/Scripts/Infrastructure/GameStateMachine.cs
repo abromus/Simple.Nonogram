@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Simple.Nonogram.Infrastructure.States;
 
 namespace Simple.Nonogram.Infrastructure
 {
