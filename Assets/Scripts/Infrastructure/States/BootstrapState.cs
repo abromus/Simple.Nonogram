@@ -1,4 +1,5 @@
-﻿using Simple.Nonogram.Infrastructure.Services;
+﻿using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
+using Simple.Nonogram.Infrastructure.Services.Loading;
 
 namespace Simple.Nonogram.Infrastructure.States
 {
@@ -9,13 +10,13 @@ namespace Simple.Nonogram.Infrastructure.States
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
-        private readonly ServiceLocator _services;
+        private readonly ICompositionRoot _root;
 
-        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, ServiceLocator services)
+        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, ICompositionRoot root)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
-            _services = services;
+            _root = root;
 
             RegisterServices();
         }
@@ -29,7 +30,6 @@ namespace Simple.Nonogram.Infrastructure.States
 
         private void RegisterServices()
         {
-            //_services.Add<IGameFactory>(new GameFactory());
         }
 
         private void EnterLoadLevel()
