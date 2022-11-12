@@ -1,14 +1,9 @@
-﻿namespace Simple.Nonogram.Infrastructure.Delegates
+﻿using Simple.Nonogram.Infrastructure.Delegates;
+
+namespace Simple.Nonogram.Extensions
 {
-    public delegate void Block();
 
-    public delegate void FailBlock(long errorCode = -1, string message = null);
-
-    public delegate void Block<in T>(T obj);
-
-    public delegate void Block<in T1, in T2>(T1 t1, T2 t2);
-
-    public static class DelegateUtils
+    public static class DelegateExtension
     {
         public static void SafeInvoke(this Block block)
         {

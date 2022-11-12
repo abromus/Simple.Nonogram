@@ -1,17 +1,18 @@
 ﻿using Cysharp.Threading.Tasks;
+using Simple.Nonogram.Extensions;
 using Simple.Nonogram.Infrastructure.Delegates;
 using UnityEngine.SceneManagement;
 
-namespace Simple.Nonogram.Infrastructure
+namespace Simple.Nonogram.Infrastructure.Services.Loading
 {
-    public class SceneLoader
+    public class SceneLoader : IService
     {
         public async void Load(string name, Block onSuccess = null)
         {
             await LoadScene(name, onSuccess);
         }
 
-        private async UniTask LoadScene(string name, Block onSuccess = null)
+        private async UniTask LoadScene(string name, Block onSuccess = null, FailBlock onFail = null)
         {
             if (SceneManager.GetActiveScene().name != name)
             {

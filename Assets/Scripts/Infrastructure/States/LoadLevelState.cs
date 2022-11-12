@@ -1,4 +1,6 @@
-﻿namespace Simple.Nonogram.Infrastructure.States
+﻿using Simple.Nonogram.Infrastructure.Services.Loading;
+
+namespace Simple.Nonogram.Infrastructure.States
 {
     public class LoadLevelState : IEnterState<string>
     {
