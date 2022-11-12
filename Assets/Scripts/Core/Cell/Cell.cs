@@ -24,4 +24,9 @@ namespace Simple.Nonogram.Core
                 DebugExtension.LogError($"InvalidEnumArgumentException: ({state} not found in {typeof(CellState)}");
         }
     }
+
+    public class CellModel
+    {
+
+    }
 }

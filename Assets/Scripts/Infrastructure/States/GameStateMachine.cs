@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Simple.Nonogram.Infrastructure.States;
+using Simple.Nonogram.Infrastructure.Services;
 
-namespace Simple.Nonogram.Infrastructure
+namespace Simple.Nonogram.Infrastructure.States
 {
     public class GameStateMachine
     {
@@ -10,11 +10,11 @@ namespace Simple.Nonogram.Infrastructure
 
         private IExitState _currentState;
 
-        public GameStateMachine(SceneLoader sceneLoader)
+        public GameStateMachine(SceneLoader sceneLoader, ServiceLocator services)
         {
             _states = new Dictionary<Type, IState>()
             {
-                [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
+                [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
                 [typeof(LoadLevelState)] = new LoadLevelState(sceneLoader)
             };
         }

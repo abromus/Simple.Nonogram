@@ -1,4 +1,7 @@
-﻿namespace Simple.Nonogram.Infrastructure
+﻿using Simple.Nonogram.Infrastructure.Services;
+using Simple.Nonogram.Infrastructure.States;
+
+namespace Simple.Nonogram.Infrastructure
 {
     public class Game
     {
@@ -6,7 +9,7 @@
 
         public Game()
         {
-            StateMachine = new GameStateMachine(new SceneLoader());
+            StateMachine = new GameStateMachine(new SceneLoader(), ServiceLocator.Contrainer);
         }
     }
 }

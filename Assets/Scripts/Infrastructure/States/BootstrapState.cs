@@ -1,4 +1,6 @@
-﻿namespace Simple.Nonogram.Infrastructure.States
+﻿using Simple.Nonogram.Infrastructure.Services;
+
+namespace Simple.Nonogram.Infrastructure.States
 {
     public class BootstrapState : IEnterState
     {
@@ -7,23 +9,28 @@
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
+        private readonly ServiceLocator _services;
 
-        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, ServiceLocator services)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
+            _services = services;
+
+            RegisterServices();
         }
 
         public void Enter()
         {
-            RegisterServices();
-
             _sceneLoader.Load(InitialSceneName, EnterLoadLevel);
         }
 
         public void Exit() { }
 
-        private void RegisterServices() { }
+        private void RegisterServices()
+        {
+            //_services.Add<IGameFactory>(new GameFactory());
+        }
 
         private void EnterLoadLevel()
         {
