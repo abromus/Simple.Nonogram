@@ -2,7 +2,7 @@
 using Simple.Nonogram.Core;
 using UnityEngine;
 
-namespace Simple.Nonogram.Extension
+namespace Simple.Nonogram.Extensions
 {
     public static class ArrayExtension
     {

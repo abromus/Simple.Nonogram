@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Simple.Nonogram.Extension
+namespace Simple.Nonogram.Extensions
 {
     public static class UnityExtension
     {
@@ -49,6 +49,28 @@ namespace Simple.Nonogram.Extension
             layoutElement.minHeight = minHeight;
 
             return layoutElement;
+        }
+
+        public static void MarkDontDestroyOnLoad(this Object dontDestroyOnLoadObject)
+        {
+            DontDestroyOnLoad(dontDestroyOnLoadObject);
+        }
+
+        public static void DontDestroyOnLoad(Object dontDestroyOnLoadObject)
+        {
+#if SNGC_USE_DONT_DESTROY_ON_LOAD
+            switch (dontDestroyOnLoadObject)
+            {
+                case Component component:
+                    component.transform.SetParent(null);
+                    break;
+                case GameObject gameObject:
+                    gameObject.transform.SetParent(null);
+                    break;
+            }
+
+            Object.DontDestroyOnLoad(dontDestroyOnLoadObject);
+#endif
         }
     }
 }

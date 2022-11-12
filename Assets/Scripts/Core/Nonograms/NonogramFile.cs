@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Simple.Nonogram.Extension;
+using Simple.Nonogram.Extensions;
 
 namespace Simple.Nonogram.Core
 {

@@ -10,8 +10,8 @@ namespace Simple.Nonogram.Components
     public class MonochromeNonogramComponent : MonoBehaviour
     {
         [Header("Components")]
-        [SerializeField] private NonogramView _nonogramView;
         [SerializeField] private NonogramElement _prefab;
+        [SerializeField] private RectTransform _prefabParent;
         [SerializeField] private NonogramConfig _config;
 
         private readonly string _path = "\\Trash\\Nonograms";
@@ -23,7 +23,7 @@ namespace Simple.Nonogram.Components
 
             for (int i = 0; i < metaFiles.Count; i++)
             {
-                var element = _nonogramView.Add(_prefab);
+                var element = Instantiate(_prefab, _prefabParent);
                 var actionButton = element.GetButton();
                 var j = i;
 

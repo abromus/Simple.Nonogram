@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Simple.Nonogram.Extension;
+using Simple.Nonogram.Extensions;
 
 namespace Simple.Nonogram.Core
 {

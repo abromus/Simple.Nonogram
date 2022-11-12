@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Simple.Nonogram.Extension
+namespace Simple.Nonogram.Extensions
 {
     public static class DebugExtension
     {
@@ -33,6 +33,13 @@ namespace Simple.Nonogram.Extension
         public static void LogError(string message, Color color)
         {
             LogError(message, color.ToString());
+        }
+
+        public static void Exception(string exceptionMessage)
+        {
+            var exception = new Exception(exceptionMessage);
+
+            LogError(exception.Message);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Simple.Nonogram.Extension;
+﻿using Simple.Nonogram.Extensions;
 using System.Collections.Generic;
 
 namespace Simple.Nonogram.Core

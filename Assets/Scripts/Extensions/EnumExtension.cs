@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Simple.Nonogram.Extension
+namespace Simple.Nonogram.Extensions
 {
     public static class EnumExtension
     {

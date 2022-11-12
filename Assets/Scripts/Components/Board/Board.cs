@@ -1,6 +1,6 @@
 using System;
 using Simple.Nonogram.Core;
-using Simple.Nonogram.Extension;
+using Simple.Nonogram.Extensions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
