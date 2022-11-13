@@ -1,4 +1,7 @@
 ﻿namespace Simple.Nonogram.Infrastructure.Services
 {
-    public interface IService { }
+    public interface IService
+    {
+        bool IsInitialized { get; }
+    }
 }

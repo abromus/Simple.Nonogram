@@ -8,9 +8,9 @@ namespace Simple.Nonogram.Infrastructure
     {
         public GameStateMachine StateMachine;
 
-        public Game()
+        public Game(LoadingController loadingController)
         {
-            StateMachine = new GameStateMachine(new SceneLoader(), DI.CreateCompositionRoot(CompositionTag.Root));
+            StateMachine = new GameStateMachine(new SceneLoader(), DI.CreateCompositionRoot(CompositionTag.Root), loadingController);
         }
     }
 }

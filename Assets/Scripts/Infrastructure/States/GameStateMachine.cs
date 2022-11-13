@@ -6,19 +6,25 @@ using Simple.Nonogram.Infrastructure.Services.Loading;
 
 namespace Simple.Nonogram.Infrastructure.States
 {
-    public class GameStateMachine
+    public class GameStateMachine : IGameStateMachine, IService
     {
         private readonly Dictionary<Type, IState> _states;
 
         private IExitState _currentState;
+        private bool _isInitialized;
 
-        public GameStateMachine(SceneLoader sceneLoader, ICompositionRoot root)
+        public bool IsInitialized => _isInitialized;
+
+        public GameStateMachine(SceneLoader sceneLoader, ICompositionRoot root, LoadingController loadingController)
         {
             _states = new Dictionary<Type, IState>()
             {
-                [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, root),
-                [typeof(LoadLevelState)] = new LoadLevelState(sceneLoader)
+                [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, root, loadingController),
+                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, root),
+                [typeof(GameLoopState)] = new GameLoopState(this, sceneLoader, root)
             };
+
+            _isInitialized = true;
         }
 
         public void Enter<Tstate>() where Tstate : class, IEnterState

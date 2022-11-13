@@ -25,6 +25,10 @@ namespace Simple.Nonogram.Infrastructure.Services.Audio
         private IDisposable _initSubscription;
         private IDisposable _stateChangeSubscription;
 
+        private bool _isInitialized;
+
+        public bool IsInitialized => _isInitialized;
+
         private void Start()
         {
             var compositionRoot = DI.GetCompositionRoot(CompositionTag.Root);
@@ -43,6 +47,11 @@ namespace Simple.Nonogram.Infrastructure.Services.Audio
         private void OnDestroy()
         {
             RxUtils.SafeUnsubscribe(ref _stateChangeSubscription);
+        }
+
+        public void Initialize()
+        {
+            _isInitialized = true;
         }
 
         public void SetAllEnabled()

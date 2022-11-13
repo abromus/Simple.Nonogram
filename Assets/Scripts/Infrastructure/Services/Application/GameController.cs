@@ -21,6 +21,10 @@ namespace Simple.Nonogram.Infrastructure.Services.Application
 
         private Coroutine _screenSleepCoroutine;
 
+        private bool _isInitialized;
+
+        public bool IsInitialized => _isInitialized;
+
         public GameWorld World => _gameManager.World;
 
         public IObservable<Null> OnViewUpdate => _onViewUpdate;
@@ -36,7 +40,32 @@ namespace Simple.Nonogram.Infrastructure.Services.Application
             {
                 onSuccess.SafeInvoke(this);
             }));
+
+            _isInitialized = true;
         }
+
+        public void Tick(float deltaTime)
+        {
+            _gameManager.TickClickSystems();
+
+            _gameManager.Tick(deltaTime);
+
+            _onViewUpdate.OnNext(null);
+        }
+
+        public void OnPause(bool paused)
+        {
+            if (!paused)
+            {
+                ResetSleepTimer();
+            }
+            else
+            {
+                if (_screenSleepCoroutine != null) _appController.StopCoroutine(_screenSleepCoroutine);
+            }
+        }
+
+        public void OnQuit() { }
 
         private void ContinueCreateGameController(Block onSuccess)
         {
@@ -80,29 +109,6 @@ namespace Simple.Nonogram.Infrastructure.Services.Application
 
             DebugExtension.Log("CreateGame Elapsed Seconds: " + stopwatch.Elapsed.TotalSeconds);
         }
-
-        public void Tick(float deltaTime)
-        {
-            _gameManager.TickClickSystems();
-
-            _gameManager.Tick(deltaTime);
-
-            _onViewUpdate.OnNext(null);
-        }
-
-        public void OnPause(bool paused)
-        {
-            if (!paused)
-            {
-                ResetSleepTimer();
-            }
-            else
-            {
-                if (_screenSleepCoroutine != null) _appController.StopCoroutine(_screenSleepCoroutine);
-            }
-        }
-
-        public void OnQuit() { }
 
         private IEnumerator SleepTimer()
         {

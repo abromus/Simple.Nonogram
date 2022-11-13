@@ -5,27 +5,26 @@ using UnityEngine;
 
 namespace Simple.Nonogram.Infrastructure.Services.Loading
 {
-    public class LoadingController : MonoBehaviour
+    public class LoadingController : MonoBehaviour, ILoadingController
     {
+        [SerializeField] private Canvas _canvas;
         [SerializeField] private LoadingScreen[] allScreens = null;
 
-        private Canvas _canvas;
         private LoadingScreen _activeScreen;
         private HashSet<object> _loaderHoldRequesters = new HashSet<object>();
         private LoaderParams _currentLoaderParams;
 
+        private bool _isInitialized;
+
+        public bool IsInitialized => _isInitialized;
+
         public bool IsHasAnyScreen => _activeScreen != null;
 
-        private void Awake()
+        public void Initialize()
         {
-            _canvas = GetComponent<Canvas>();
             _canvas.enabled = true;
-        }
 
-        private void Start()
-        {
-            /*var root = DI.GetCompositionRoot(CompositionTag.Root);
-            root.Add(this);*/
+            DontDestroyOnLoad(this);
         }
 
         public void ShowLoader(LoaderParams loaderParams = null, Block onComplete = null, bool withFade = true, int timeout = 0, Block timeoutBlock = null)

@@ -7,6 +7,15 @@ namespace Simple.Nonogram.Infrastructure.Services.Loading
 {
     public class SceneLoader : IService
     {
+        private bool _isInitialized;
+
+        public bool IsInitialized => _isInitialized;
+
+        public SceneLoader()
+        {
+            _isInitialized = true;
+        }
+
         public async void Load(string name, Block onSuccess = null)
         {
             await LoadScene(name, onSuccess);
