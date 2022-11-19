@@ -9,7 +9,6 @@ namespace Simple.Nonogram.Components
 {
     public class MonochromeNonogramComponent : MonoBehaviour
     {
-        [Header("Components")]
         [SerializeField] private NonogramElement _prefab;
         [SerializeField] private RectTransform _prefabParent;
         [SerializeField] private NonogramConfig _config;
@@ -24,13 +23,12 @@ namespace Simple.Nonogram.Components
             for (int i = 0; i < metaFiles.Count; i++)
             {
                 var element = Instantiate(_prefab, _prefabParent);
-                var actionButton = element.GetButton();
                 var j = i;
 
                 element.SetTitle(metaFiles[i].Name);
                 element.SetSize(metaFiles[i].Size);
 
-                actionButton.onClick.AddListener(() =>
+                element.Button.onClick.AddListener(() =>
                 {
                     _config.SetPathToFile(metaFiles[j].FullPath);
 

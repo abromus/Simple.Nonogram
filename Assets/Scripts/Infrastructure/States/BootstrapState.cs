@@ -5,8 +5,8 @@ namespace Simple.Nonogram.Infrastructure.States
 {
     public class BootstrapState : IEnterState, IExitState
     {
-        private const string InitialSceneName = "Initial";
-        private const string LevelDataSceneName = "LevelData";
+        private const string InitialSceneName = "InitialScene";
+        private const string MainMenuSceneName = "MainMenuScene";
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
@@ -39,7 +39,7 @@ namespace Simple.Nonogram.Infrastructure.States
 
         private void EnterLoadLevel()
         {
-            _stateMachine.Enter<LoadLevelState, string>(LevelDataSceneName);
+            _stateMachine.Enter<LoadSceneState, string>(MainMenuSceneName);
         }
     }
 }

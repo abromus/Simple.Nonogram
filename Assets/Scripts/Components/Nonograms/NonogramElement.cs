@@ -6,7 +6,6 @@ namespace Simple.Nonogram.Components
 {
     public class NonogramElement : MonoBehaviour
     {
-        [Header("Components")]
         [SerializeField] private RectTransform _transform;
         [Space]
         [SerializeField] private TMP_Text _title;
@@ -17,6 +16,7 @@ namespace Simple.Nonogram.Components
         [SerializeField] private Button _button;
 
         public float Height => _transform.rect.height;
+        public Button Button => _button;
 
         public void SetTitle(string title)
         {
@@ -31,11 +31,6 @@ namespace Simple.Nonogram.Components
         public void SetImage(Sprite image)
         {
             _image.sprite = image;
-        }
-
-        public Button GetButton()
-        {
-            return _button;
         }
     }
 }

@@ -20,8 +20,8 @@ namespace Simple.Nonogram.Infrastructure.States
             _states = new Dictionary<Type, IState>()
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, root, loadingController),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, root),
-                [typeof(GameLoopState)] = new GameLoopState(this, sceneLoader, root)
+                [typeof(LoadSceneState)] = new LoadSceneState(this, sceneLoader, root),
+                [typeof(GameLoopState)] = new GameLoopState(this, root)
             };
 
             _isInitialized = true;
