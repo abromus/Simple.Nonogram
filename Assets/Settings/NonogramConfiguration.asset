@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3048e5636850e54fabcddf03ad5dd0a, type: 3}
-  m_Name: NonogramConfig
+  m_Name: NonogramConfiguration
   m_EditorClassIdentifier: 
-  _pathToFile: G:/Projects/Unity/Simple.Nonogram/Assets\Trash\Nonograms\2.txt
+  _pathToFile: G:/Projects/Unity/Simple.Nonogram/Assets/Trash/Nonograms/2.txt

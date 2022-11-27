@@ -31,12 +31,12 @@ namespace Simple.Nonogram.Infrastructure.Services.Application
 
         public IGameManager GameManager => _gameManager;
 
-        public void InitGameController(string mainConfigString, CompositionRoot root, Block<GameController> onSuccess, AppController appController)
+        public void InitGameController(string mainConfigurationString, CompositionRoot root, Block<GameController> onSuccess, AppController appController)
         {
             _root = root;
             _appController = appController;
 
-            Parse(mainConfigString, () => ContinueCreateGameController(() =>
+            Parse(mainConfigurationString, () => ContinueCreateGameController(() =>
             {
                 onSuccess.SafeInvoke(this);
             }));
@@ -73,25 +73,25 @@ namespace Simple.Nonogram.Infrastructure.Services.Application
             CreateGame();
             onSuccess.SafeInvoke();
 #else
-            CreateGameAsync(onSuccess, unitsConfig);
+            CreateGameAsync(onSuccess, unitsConfiguration);
 #endif
         }
 
-        private async void Parse(string mainConfigString, Block onSuccess)
+        private async void Parse(string mainConfigurationString, Block onSuccess)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            await Task.Run(async () => await CreateConfigurationAsync(mainConfigString));
+            await Task.Run(async () => await CreateConfigurationAsync(mainConfigurationString));
 
             DebugExtension.Log("Parse Elapsed Seconds: " + stopwatch.Elapsed.TotalSeconds);
 
             onSuccess.SafeInvoke();
         }
 
-        private async Task CreateConfigurationAsync(string mainConfigString)
+        private async Task CreateConfigurationAsync(string mainConfigurationString)
         {
-            _gameConfiguration = await GameConfiguration.PreInitialize(mainConfigString);
+            _gameConfiguration = await GameConfiguration.PreInitialize(mainConfigurationString);
         }
 
         private async void CreateGameAsync(Block onSuccess)

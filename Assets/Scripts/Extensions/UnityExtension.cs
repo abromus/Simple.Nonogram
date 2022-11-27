@@ -58,7 +58,7 @@ namespace Simple.Nonogram.Extensions
 
         public static void DontDestroyOnLoad(Object dontDestroyOnLoadObject)
         {
-#if SNGC_USE_DONT_DESTROY_ON_LOAD
+//#if SNGC_USE_DONT_DESTROY_ON_LOAD
             switch (dontDestroyOnLoadObject)
             {
                 case Component component:
@@ -70,7 +70,7 @@ namespace Simple.Nonogram.Extensions
             }
 
             Object.DontDestroyOnLoad(dontDestroyOnLoadObject);
-#endif
+//#endif
         }
     }
 }

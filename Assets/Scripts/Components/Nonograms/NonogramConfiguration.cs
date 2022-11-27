@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Simple.Nonogram.Components
 {
-    [CreateAssetMenu(fileName = "NonogramConfig", menuName = "Create nonogram config")]
-    public class NonogramConfig : ScriptableObject
+    [CreateAssetMenu(fileName = "NonogramConfiguration", menuName = "Configurations/Nonogram configuration")]
+    public class NonogramConfiguration : ScriptableObject
     {
         [SerializeField] private string _pathToFile;
 

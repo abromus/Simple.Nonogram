@@ -20,7 +20,7 @@ namespace Simple.Nonogram.Infrastructure.Services.DependencyInjection
             Tag = tag;
         }
 
-        public void Add<TService>(TService service) where TService : class, IService
+        public void AddService<TService>(TService service) where TService : class, IService
         {
             if (service == null)
                 return;
@@ -28,12 +28,15 @@ namespace Simple.Nonogram.Infrastructure.Services.DependencyInjection
             Add(typeof(TService), service);
         }
 
-        public void Add(Type type, object service)
+        public void AddConfiguration<TConfiguration>(TConfiguration configuration) where TConfiguration : class, IConfiguration
         {
-            _objects[type] = service;
+            if (configuration == null)
+                return;
+
+            Add(typeof(TConfiguration), configuration);
         }
 
-        public TService Get<TService>() where TService : class, IService
+        public TService GetService<TService>() where TService : class, IService
         {
             if (Disposed)
                 return null;
@@ -43,7 +46,21 @@ namespace Simple.Nonogram.Infrastructure.Services.DependencyInjection
             return _objects.TryGetValue(type, out object service)
                 ? service as TService
                 : _dependencyRoot != null
-                    ? _dependencyRoot.Get<TService>()
+                    ? _dependencyRoot.GetService<TService>()
+                    : null;
+        }
+
+        public TConfiguration GetConfiguration<TConfiguration>() where TConfiguration : class, IConfiguration
+        {
+            if (Disposed)
+                return null;
+
+            var type = typeof(TConfiguration);
+
+            return _objects.TryGetValue(type, out object configuration)
+                ? configuration as TConfiguration
+                : _dependencyRoot != null
+                    ? _dependencyRoot.GetConfiguration<TConfiguration>()
                     : null;
         }
 
@@ -95,6 +112,11 @@ namespace Simple.Nonogram.Infrastructure.Services.DependencyInjection
             }
 
             Disposed = true;
+        }
+
+        private void Add(Type type, object service)
+        {
+            _objects[type] = service;
         }
 
         private void ClearChilds()

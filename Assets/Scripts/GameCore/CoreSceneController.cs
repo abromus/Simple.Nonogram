@@ -74,9 +74,9 @@ namespace Simple.Nonogram.GameCore
             //_sceneLoader = new SceneLoader(this);
 
             //_root.Add(_sceneLoader);
-            _root.Add((AppController)this);
+            /*_root.Add((AppController)this);
 
-            _loadingLog += "StartInitialize\n";
+            _loadingLog += "StartInitialize\n";*/
         }
 
         protected override void InitGame(Block<IGameAdapter> onSuccess, FailBlock onFail)
@@ -88,14 +88,14 @@ namespace Simple.Nonogram.GameCore
             initGameStopWatch = new Stopwatch();
             initGameStopWatch.Start();
 
-            //var mainConfig = sqbaFiles.TextByName("main_defaults.json");
+            //var mainConfiguration = sqbaFiles.TextByName("main_defaults.json");
 
             if (_gameController == null)
             {
                 var stop = new Stopwatch();
                 stop.Start();
                 var gameController = new GameController();
-                /*gameController.InitGameController(mainConfig,
+                /*gameController.InitGameController(mainConfiguration,
                     _root,
                     newGameController =>
                     {
@@ -111,8 +111,8 @@ namespace Simple.Nonogram.GameCore
 
         private void ContinueInitGame(GameController gameController, Block<IGameAdapter> onSuccess)
         {
-            _gameController = gameController;
-            _root.Add<IGameProvider>(gameController);
+            /*_gameController = gameController;
+            _root.Add<IGameProvider>(gameController);*/
         }
 
         protected override void LaunchGame()

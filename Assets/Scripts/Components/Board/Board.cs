@@ -9,7 +9,7 @@ namespace Simple.Nonogram.Components
 {
     public class Board : MonoBehaviour
     {
-        [SerializeField] private NonogramConfig _config;
+        [SerializeField] private NonogramConfiguration _configuration;
         [Space]
         [SerializeField] private Cell _cellPrefab;
         [SerializeField] private Transform _cellsContainer;
@@ -44,7 +44,7 @@ namespace Simple.Nonogram.Components
 
         private void Awake()
         {
-            _answerBoard = new AnswerBoard(_config.PathToFile);
+            _answerBoard = new AnswerBoard(_configuration.PathToFile);
             _userBoard = new UserBoard(_answerBoard);
             _numberBoard = new NumberBoard(_answerBoard);
 

@@ -11,7 +11,7 @@ namespace Simple.Nonogram.Components
     {
         [SerializeField] private NonogramElement _prefab;
         [SerializeField] private RectTransform _prefabParent;
-        [SerializeField] private NonogramConfig _config;
+        [SerializeField] private NonogramConfiguration _configuration;
 
         private readonly string _path = "\\Trash\\Nonograms";
         private readonly string _levelSceneName = "Level";
@@ -30,7 +30,7 @@ namespace Simple.Nonogram.Components
 
                 element.Button.onClick.AddListener(() =>
                 {
-                    _config.SetPathToFile(metaFiles[j].FullPath);
+                    _configuration.SetPathToFile(metaFiles[j].FullPath);
 
                     SceneManager.LoadScene(_levelSceneName, LoadSceneMode.Single);
                 });

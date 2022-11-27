@@ -25,7 +25,7 @@ namespace Simple.Nonogram.Infrastructure.Services.Loading
         {
             if (SceneManager.GetActiveScene().name != name)
             {
-                var nextSceneOperation = SceneManager.LoadSceneAsync(name);
+                var nextSceneOperation = SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
 
                 await UniTask.WaitUntil(() => nextSceneOperation.isDone);
             }

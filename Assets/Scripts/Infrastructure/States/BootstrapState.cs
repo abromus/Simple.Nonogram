@@ -32,8 +32,8 @@ namespace Simple.Nonogram.Infrastructure.States
 
         private void RegisterServices()
         {
-            _root.Add<IGameStateMachine>(_stateMachine);
-            _root.Add<ILoadingController>(_loadingController);
+            _root.AddService<IGameStateMachine>(_stateMachine);
+            _root.AddService<ILoadingController>(_loadingController);
             _loadingController.Initialize();
         }
 

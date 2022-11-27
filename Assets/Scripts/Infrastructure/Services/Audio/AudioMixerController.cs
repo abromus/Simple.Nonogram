@@ -32,12 +32,12 @@ namespace Simple.Nonogram.Infrastructure.Services.Audio
         private void Start()
         {
             var compositionRoot = DI.GetCompositionRoot(CompositionTag.Root);
-            compositionRoot.Add(this);
+            compositionRoot.AddService(this);
 
             _initSubscription = _coreSceneController.OnGameInitialized.Subscribe(_ =>
             {
                 RxUtils.SafeUnsubscribe(ref _initSubscription);
-                var gameProvider = compositionRoot.Get<IGameProvider>();
+                var gameProvider = compositionRoot.GetService<IGameProvider>();
                 _world = gameProvider.World;
 
                 OnInitalizeComplete();

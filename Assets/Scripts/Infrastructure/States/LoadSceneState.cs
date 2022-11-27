@@ -1,5 +1,6 @@
 ﻿using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
 using Simple.Nonogram.Infrastructure.Services.Loading;
+using Simple.Nonogram.Infrastructure.Services.SceneManagement;
 
 namespace Simple.Nonogram.Infrastructure.States
 {
@@ -10,12 +11,15 @@ namespace Simple.Nonogram.Infrastructure.States
         private readonly ICompositionRoot _root;
         private readonly ILoadingController _loadingController;
 
+        private readonly SceneConfiguration _sceneConfiguration;
+
         public LoadSceneState(GameStateMachine stateMachine, SceneLoader sceneLoader, ICompositionRoot root)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _root = root;
-            _loadingController = _root.Get<ILoadingController>();
+            _loadingController = _root.GetService<ILoadingController>();
+            _sceneConfiguration = _root.GetConfiguration<SceneConfiguration>();
         }
 
         public void Enter(string sceneName)

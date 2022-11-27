@@ -4,7 +4,9 @@
     {
         public string Tag { get; }
 
-        public void Add<T>(T obj) where T : class, IService;
-        public T Get<T>() where T : class, IService;
+        public void AddService<T>(T service) where T : class, IService;
+        public void AddConfiguration<T>(T configuration) where T : class, IConfiguration;
+        public T GetService<T>() where T : class, IService;
+        public T GetConfiguration<T>() where T : class, IConfiguration;
     }
 }

@@ -1,12 +1,30 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Simple.Nonogram.Configuration;
+using UnityEngine;
 
 namespace Simple.Nonogram.Infrastructure.Services.DependencyInjection
 {
     public class MonoInjector : MonoBehaviour
     {
-        [SerializeField] private MonoBehaviour[] _behaviours;
-        [SerializeField] private ScriptableObject[] _scriptables;
+        [SerializeField] private List<MonoBehaviour> _services;
+        [SerializeField] private List<ScriptableConfiguration> _configurations;
         [SerializeField] private string _injectTag;
+
+        public string InjectTag
+        {
+            get => _injectTag;
+            set => _injectTag = value;
+        }
+
+        private void OnValidate()
+        {
+            for (int i = 0; i < _services.Count; i++)
+                if (_services[i].GetComponent<IService>() == null)
+                {
+                    _services.RemoveAt(i);
+                    i--;
+                }
+        }
 
         private void Awake()
         {
@@ -18,28 +36,16 @@ namespace Simple.Nonogram.Infrastructure.Services.DependencyInjection
             DI.OnRootCreated -= OnRootCreated;
         }
 
-        public string InjectTag
-        {
-            get => _injectTag;
-            set => _injectTag = value;
-        }
-
         private void OnRootCreated(CompositionRoot root)
         {
             if (!string.Equals(_injectTag, root.Tag, System.StringComparison.InvariantCulture))
                 return;
 
-            foreach (var behaviour in _behaviours)
-            {
-                var type = behaviour.GetType();
-                root.Add(type, behaviour);
-            }
+            foreach (var service in _services)
+                root.AddService(service as IService);
 
-            foreach (var scriptable in _scriptables)
-            {
-                var type = scriptable.GetType();
-                root.Add(type, scriptable);
-            }
+            foreach (var configuration in _configurations)
+                root.AddConfiguration(configuration);
         }
     }
 }

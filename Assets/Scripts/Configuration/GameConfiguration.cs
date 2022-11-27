@@ -27,21 +27,21 @@ namespace Simple.Nonogram.Configuration
             Collections = new Collections(mainNode["collections"]);
         }
 
-        public static GameConfiguration PreInitialize(JSONNode mainConfig)
+        public static GameConfiguration PreInitialize(JSONNode mainConfiguration)
         {
-            return new GameConfiguration(mainConfig);
+            return new GameConfiguration(mainConfiguration);
         }
 
-        public static async Task<GameConfiguration> PreInitialize(string mainConfigString)
+        public static async Task<GameConfiguration> PreInitialize(string mainConfigurationString)
         {
-            JSONNode mainConfig = null;
+            JSONNode mainConfiguration = null;
 
             List<UniTask> jsonParseList = new List<UniTask>();
-            jsonParseList.Add(ParseJSON(mainConfigString, node => mainConfig = node));
+            jsonParseList.Add(ParseJSON(mainConfigurationString, node => mainConfiguration = node));
 
             await UniTask.WhenAll(jsonParseList);
 
-            return new GameConfiguration(mainConfig);
+            return new GameConfiguration(mainConfiguration);
         }
 
         private static async UniTask ParseJSON(string json, Block<JSONNode> nodeBlock)
