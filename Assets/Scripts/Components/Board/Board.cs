@@ -84,16 +84,10 @@ namespace Simple.Nonogram.Components
 
         private void CalculateSpriteSize()
         {
-            var widthSprite = 1f;
-            var heightSprite = 1f;
+            var digits = 2;
 
-            if (_cellPrefab.TryGetComponent(out SpriteRenderer spriteRenderer))
-            {
-                var digits = 2;
-
-                widthSprite = Convert.ToSingle(Math.Round(spriteRenderer.sprite.rect.width / spriteRenderer.sprite.pixelsPerUnit, digits));
-                heightSprite = Convert.ToSingle(Math.Round(spriteRenderer.sprite.rect.height / spriteRenderer.sprite.pixelsPerUnit, digits));
-            }
+            var widthSprite = Convert.ToSingle(Math.Round(_cellPrefab.SpriteRenderer.sprite.rect.width / _cellPrefab.SpriteRenderer.sprite.pixelsPerUnit, digits));
+            var heightSprite = Convert.ToSingle(Math.Round(_cellPrefab.SpriteRenderer.sprite.rect.height / _cellPrefab.SpriteRenderer.sprite.pixelsPerUnit, digits));
 
             _spriteSize = new SizeF(widthSprite, heightSprite);
         }

@@ -1,5 +1,6 @@
 ﻿using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
 using Simple.Nonogram.Infrastructure.Services.Loading;
+using UnityEngine.SceneManagement;
 
 namespace Simple.Nonogram.Infrastructure.States
 {
@@ -25,7 +26,7 @@ namespace Simple.Nonogram.Infrastructure.States
 
         public void Enter()
         {
-            _sceneLoader.Load(InitialSceneName, EnterLoadLevel);
+            _sceneLoader.Load(InitialSceneName, LoadSceneMode.Single, EnterLoadLevel);
         }
 
         public void Exit() { }

@@ -16,16 +16,16 @@ namespace Simple.Nonogram.Infrastructure.Services.Loading
             _isInitialized = true;
         }
 
-        public async void Load(string name, Block onSuccess = null)
+        public async void Load(string name, LoadSceneMode loadSceneMode, Block onSuccess = null, FailBlock onFail = null)
         {
-            await LoadScene(name, onSuccess);
+            await LoadScene(name, loadSceneMode, onSuccess, onFail);
         }
 
-        private async UniTask LoadScene(string name, Block onSuccess = null, FailBlock onFail = null)
+        private async UniTask LoadScene(string name, LoadSceneMode loadSceneMode, Block onSuccess = null, FailBlock onFail = null)
         {
             if (SceneManager.GetActiveScene().name != name)
             {
-                var nextSceneOperation = SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
+                var nextSceneOperation = SceneManager.LoadSceneAsync(name, loadSceneMode);
 
                 await UniTask.WaitUntil(() => nextSceneOperation.isDone);
             }

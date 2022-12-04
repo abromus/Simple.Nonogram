@@ -26,13 +26,6 @@ namespace Simple.Nonogram.Extensions
             return rectTransform;
         }
 
-        private static Vector2 GetParentSize(RectTransform rectTransform)
-        {
-            var rectTransformParent = (RectTransform)rectTransform.parent;
-
-            return rectTransformParent ? rectTransformParent.rect.size : Vector2.zero;
-        }
-
         public static LayoutElement UpdateSizes(this LayoutElement layoutElement, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight)
         {
             layoutElement.preferredWidth = preferredWidth;
@@ -71,6 +64,18 @@ namespace Simple.Nonogram.Extensions
 
             Object.DontDestroyOnLoad(dontDestroyOnLoadObject);
 //#endif
+        }
+
+        public static Vector2Int ToVector2Int(this Vector3 vector)
+        {
+            return new Vector2Int(Mathf.RoundToInt(vector.x), Mathf.RoundToInt(vector.y));
+        }
+
+        private static Vector2 GetParentSize(RectTransform rectTransform)
+        {
+            var rectTransformParent = (RectTransform)rectTransform.parent;
+
+            return rectTransformParent ? rectTransformParent.rect.size : Vector2.zero;
         }
     }
 }
