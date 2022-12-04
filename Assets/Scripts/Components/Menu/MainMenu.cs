@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Simple.Nonogram.Core;
@@ -5,24 +6,53 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Simple.Nonogram.Components
+namespace Simple.Nonogram.Components.Menu
 {
-    public class MonochromeNonogramComponent : MonoBehaviour
+    public class MainMenu : MonoBehaviour
     {
-        [SerializeField] private NonogramElement _prefab;
-        [SerializeField] private RectTransform _prefabParent;
+        [SerializeField] private Button _playButton;
+        [SerializeField] private Button _generateButton;
+
+        [SerializeField] private NonogramElement _nonogramPrefab;
+        [SerializeField] private RectTransform _nonogramPrefabParent;
+        [SerializeField] private RectTransform _nonogramContainer;
         [SerializeField] private NonogramConfiguration _configuration;
 
         private readonly string _path = "\\Trash\\Nonograms";
         private readonly string _levelSceneName = "Level";
+        private readonly string _nonogramGeneratorSceneName = "NonogramGeneratorScene";
 
         private void Awake()
+        {
+            _playButton.onClick.AddListener(Play);
+            _generateButton.onClick.AddListener(GenerateNonogram);
+
+            _nonogramContainer.gameObject.SetActive(false);
+        }
+
+        private void Play()
+        {
+            _playButton.gameObject.SetActive(false);
+            _generateButton.gameObject.SetActive(false);
+
+            _nonogramContainer.gameObject.SetActive(true);
+            gameObject.SetActive(false);
+
+            CreateNonograms();
+        }
+
+        private void GenerateNonogram()
+        {
+            SceneManager.LoadScene(_nonogramGeneratorSceneName, LoadSceneMode.Single);
+        }
+
+        private void CreateNonograms()
         {
             var metaFiles = LoadNonogramsMeta(_path);
 
             for (int i = 0; i < metaFiles.Count; i++)
             {
-                var element = Instantiate(_prefab, _prefabParent);
+                var element = Instantiate(_nonogramPrefab, _nonogramPrefabParent);
                 var j = i;
 
                 element.SetTitle(metaFiles[i].Name);

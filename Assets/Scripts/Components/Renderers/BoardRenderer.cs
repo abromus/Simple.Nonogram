@@ -51,7 +51,7 @@ namespace Simple.Nonogram.Components
 
         private void SetSprite(Vector2Int coordinate, Sprite filledState)
         {
-            SpriteRenderer spriteRenderer = _board.UserBoardView[coordinate.x, coordinate.y].GetComponent<SpriteRenderer>();
+            SpriteRenderer spriteRenderer = _board.UserBoardView[coordinate.x, coordinate.y].SpriteRenderer;
 
             spriteRenderer.sprite = spriteRenderer.sprite != filledState ? filledState : _blank;
         }

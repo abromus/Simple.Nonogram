@@ -6,6 +6,10 @@ namespace Simple.Nonogram.Components
 {
     public class Cell : MonoBehaviour, IHighlighableCell, IClickableCell
     {
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+
+        public SpriteRenderer SpriteRenderer => _spriteRenderer;
+
         public event Action<Vector3, PointerEventData.InputButton> HoveredBegin;
         public event Action<Vector3, PointerEventData.InputButton> HoveredEnd;
         public event Action<Vector3, PointerEventData.InputButton> PointerDown;
