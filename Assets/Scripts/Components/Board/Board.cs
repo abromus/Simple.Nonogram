@@ -140,7 +140,7 @@ namespace Simple.Nonogram.Components
                 for (int j = 0; j < cells.GetLength((int)Dimension.Height); j++)
                     if (cells[i, j] > 0)
                     {
-                        cellsView[i, j].GetComponentInChildren<TMP_Text>().text = cells[i, j].ToString();
+                        cellsView[i, j].Text.text = cells[i, j].ToString();
                         cellsView[i, j].PointerDown += onPointerDown;
                     }
         }

@@ -20,14 +20,11 @@ namespace Simple.Nonogram.Components
         private NumberBoardRenderer _topRenderer;
         private NumberBoardRenderer _leftRenderer;
 
-        private void Awake()
+        private void Start()
         {
             _topRenderer = new NumberBoardRenderer(_board.Top, _blank, _empty);
             _leftRenderer = new NumberBoardRenderer(_board.Left, _blank, _empty);
-        }
 
-        private void Start()
-        {
             _guideRenderer = new GuideRenderer(_board, _verifier);
             _auxiliaryLinesRenderer = new AuxiliaryLinesRenderer(_board, transform, _lineMaterial, Color.grey, Color.grey);
 
