@@ -821,11 +821,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 3985dbb0-3144-4146-93ca-1d5ccc459630
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: Simple.Nonogram
+  organizationId: abromus
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
