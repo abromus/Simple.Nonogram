@@ -1,4 +1,7 @@
-﻿namespace Simple.Nonogram.Infrastructure.States
+﻿using Simple.Nonogram.Infrastructure.Services;
+using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
+
+namespace Simple.Nonogram.Infrastructure.States
 {
     public class BootstrapState : IEnterState
     {
@@ -6,11 +9,13 @@
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
+        private readonly ICompositionRoot _root;
 
-        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, ICompositionRoot root)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
+            _root = root;
         }
 
         public void Enter()
@@ -22,7 +27,10 @@
 
         public void Exit() { }
 
-        private void RegisterServices() { }
+        private void RegisterServices()
+        {
+            _root.Add<IGameStateMachine>(_stateMachine);
+        }
 
         private void EnterSceneLoaderState()
         {
