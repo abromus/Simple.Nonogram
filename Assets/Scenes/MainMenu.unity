@@ -133,8 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 88079084}
   - component: {fileID: 88079085}
+  - component: {fileID: 88079086}
   m_Layer: 5
-  m_Name: ButtonsContainer
+  m_Name: MainMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,6 +189,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &88079086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88079083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6809071083ee1c547af4d46e8145c778, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonToPlay: {fileID: 1926747137}
+  _buttonToGenerateNonograms: {fileID: 150121416}
 --- !u!1 &150121413
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +217,7 @@ GameObject:
   - component: {fileID: 150121416}
   - component: {fileID: 150121415}
   m_Layer: 5
-  m_Name: ButtonToGenerate
+  m_Name: ButtonToGenerateNonograms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1423,7 +1438,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 0}
+  m_BackGroundColor: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
