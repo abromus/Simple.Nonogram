@@ -1,5 +1,4 @@
 ﻿using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
-using Simple.Nonogram.Infrastructure.Services.StateMachine;
 
 namespace Simple.Nonogram.Infrastructure.Services.StateMachine
 {
@@ -34,9 +33,7 @@ namespace Simple.Nonogram.Infrastructure.Services.StateMachine
 
         private void EnterSceneLoaderState()
         {
-            var mainMenuInfo = new SceneInfo("MainMenu", () => _stateMachine.Enter<MainMenuState>());
-
-            _stateMachine.Enter<SceneLoaderState, SceneInfo>(mainMenuInfo);
+            _stateMachine.Enter<MainMenuState>();
         }
     }
 }

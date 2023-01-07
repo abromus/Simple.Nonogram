@@ -433,7 +433,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 311270078}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6809071083ee1c547af4d46e8145c778, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e703aa01a009f74cb4a6e6f3894e678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _nonogramsMenuPrefab: {fileID: 2172931697624608987, guid: 484dbc4704c361a4f850b6afab7a2cf6, type: 3}

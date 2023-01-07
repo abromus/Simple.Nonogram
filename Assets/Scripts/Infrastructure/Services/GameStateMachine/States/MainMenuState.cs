@@ -1,12 +1,21 @@
-﻿using UnityEngine;
-
-namespace Simple.Nonogram.Infrastructure.Services.StateMachine
+﻿namespace Simple.Nonogram.Infrastructure.Services.StateMachine
 {
     public class MainMenuState : IEnterState
     {
+        private const string MainMenuScene = "MainMenu";
+
+        private GameStateMachine _stateMachine;
+
+        public MainMenuState(GameStateMachine gameStateMachine)
+        {
+            _stateMachine = gameStateMachine;
+        }
+
         public void Enter()
         {
-            Debug.LogError($"MainMenuState");
+            var mainMenuInfo = new SceneInfo(MainMenuScene, null);
+
+            _stateMachine.Enter<SceneLoaderState, SceneInfo>(mainMenuInfo);
         }
 
         public void Exit() { }

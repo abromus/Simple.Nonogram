@@ -17,7 +17,7 @@ namespace Simple.Nonogram.Infrastructure.Services.StateMachine
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, root),
                 [typeof(SceneLoaderState)] = new SceneLoaderState(sceneLoader),
-                [typeof(MainMenuState)] = new MainMenuState(),
+                [typeof(MainMenuState)] = new MainMenuState(this),
                 [typeof(GameLoopState)] = new GameLoopState(),
             };
         }

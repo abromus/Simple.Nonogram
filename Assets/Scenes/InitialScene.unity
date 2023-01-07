@@ -153,7 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _behaviours: []
-  _scriptables: []
+  _scriptables:
+  - {fileID: 11400000, guid: cee5f36cd5a4ff64597297427f436256, type: 2}
   _injectTag: Game
 --- !u!4 &881398617
 Transform:

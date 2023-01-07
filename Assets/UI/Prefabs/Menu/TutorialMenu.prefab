@@ -281,15 +281,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 416365509454298204}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7163464c31ac9024faf59b7144d0a4ec, type: 3}
+  m_Script: {fileID: 11500000, guid: aeca428db23cecd4a9a167e14d826113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _backButton: {fileID: 416365510998988957}
   _content: {fileID: 416365510202836443}
   _nonograms: {fileID: 416365509658165374}
-  _topOffset: 50
+  _topOffset: 30
   _bottomOffset: 20
-  _nonogramButtonPrefab: {fileID: -5564231117794852701, guid: 051c4d09a97f68f46a74d047e6476275, type: 3}
+  _nonogramElementPrefab: {fileID: -5564231117794852701, guid: 051c4d09a97f68f46a74d047e6476275, type: 3}
 --- !u!1 &416365509549371288
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +574,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &416365509981365449
 RectTransform:
   m_ObjectHideFlags: 0
@@ -678,7 +678,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 416365509447837791}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999428
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -826,7 +826,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.00042240298}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &416365510391254312
