@@ -10,6 +10,10 @@ namespace Simple.Nonogram.Infrastructure.Services.DependencyInjection
         [SerializeField] private ScriptableObject[] _scriptables;
         [SerializeField] private string _injectTag;
 
+        private bool _isInitialized;
+
+        public bool IsInitialized => _isInitialized;
+
         private void Awake()
         {
             DI.OnRootCreated += OnRootCreated;
@@ -27,6 +31,8 @@ namespace Simple.Nonogram.Infrastructure.Services.DependencyInjection
 
             AddBehaviours(root);
             AddScriptables(root);
+
+            _isInitialized = true;
         }
 
         private void AddBehaviours(CompositionRoot root)
