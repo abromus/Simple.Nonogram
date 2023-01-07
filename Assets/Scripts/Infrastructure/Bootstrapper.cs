@@ -1,4 +1,4 @@
-using Simple.Nonogram.Infrastructure.States;
+using Simple.Nonogram.Infrastructure.Services.StateMachine;
 using UnityEngine;
 
 namespace Simple.Nonogram.Infrastructure

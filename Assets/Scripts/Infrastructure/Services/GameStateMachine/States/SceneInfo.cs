@@ -1,6 +1,6 @@
 ﻿using Simple.Nonogram.Infrastructure.Delegates;
 
-namespace Simple.Nonogram.Infrastructure.States
+namespace Simple.Nonogram.Infrastructure.Services.StateMachine
 {
     public class SceneInfo
     {

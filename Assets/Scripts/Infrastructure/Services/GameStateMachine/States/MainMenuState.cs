@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Simple.Nonogram.Infrastructure.States
+namespace Simple.Nonogram.Infrastructure.Services.StateMachine
 {
     public class MainMenuState : IEnterState
     {

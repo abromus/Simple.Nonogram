@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
-using Simple.Nonogram.Infrastructure.States;
+using Simple.Nonogram.Infrastructure.Services.StateMachine;
 
-namespace Simple.Nonogram.Infrastructure.Services
+namespace Simple.Nonogram.Infrastructure.Services.StateMachine
 {
     public class GameStateMachine : IGameStateMachine
     {

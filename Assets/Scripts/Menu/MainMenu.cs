@@ -1,14 +1,17 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Simple.Nonogram.Menu
 {
     public class MainMenu : MonoBehaviour
     {
+        [SerializeField] private NonogramsMenu _nonogramsMenuPrefab;
+
         [SerializeField] private Button _buttonToPlay;
         [SerializeField] private Button _buttonToGenerateNonograms;
+
+        private NonogramsMenu _nonogramsMenu;
 
         private void Awake()
         {
@@ -18,7 +21,17 @@ namespace Simple.Nonogram.Menu
 
         private void PlayGame()
         {
-            SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+            ShowNonogramsMenu();
+
+            gameObject.SetActive(false);
+        }
+
+        private void ShowNonogramsMenu()
+        {
+            if (_nonogramsMenu == null)
+                _nonogramsMenu = Instantiate(_nonogramsMenuPrefab, transform.parent);
+
+            _nonogramsMenu.gameObject.SetActive(true);
         }
 
         private void GenerateNonogram()

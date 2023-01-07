@@ -1,7 +1,4 @@
-﻿using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
-using Simple.Nonogram.Infrastructure.States;
-
-namespace Simple.Nonogram.Infrastructure.Services
+﻿namespace Simple.Nonogram.Infrastructure.Services.StateMachine
 {
     public interface IGameStateMachine : IService
     {

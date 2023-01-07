@@ -1,5 +1,5 @@
-﻿using Simple.Nonogram.Infrastructure.Services;
-using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
+﻿using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
+using Simple.Nonogram.Infrastructure.Services.StateMachine;
 
 namespace Simple.Nonogram.Infrastructure
 {

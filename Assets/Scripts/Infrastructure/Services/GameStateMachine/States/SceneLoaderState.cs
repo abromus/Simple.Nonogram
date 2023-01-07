@@ -1,4 +1,4 @@
-﻿namespace Simple.Nonogram.Infrastructure.States
+﻿namespace Simple.Nonogram.Infrastructure.Services.StateMachine
 {
     public class SceneLoaderState : IEnterState<SceneInfo>
     {
