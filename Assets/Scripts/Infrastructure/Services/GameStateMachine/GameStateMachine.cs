@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
-using Simple.Nonogram.Infrastructure.Services.StateMachine;
 
 namespace Simple.Nonogram.Infrastructure.Services.StateMachine
 {

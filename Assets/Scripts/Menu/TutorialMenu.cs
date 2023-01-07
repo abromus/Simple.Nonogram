@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Simple.Nonogram.Extension;
 using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
+using Simple.Nonogram.Infrastructure.Services.StateMachine;
 using Simple.Nonogram.Nonograms;
 using Simple.Nonogram.Settings;
 using UniRx;
@@ -12,6 +13,8 @@ namespace Simple.Nonogram.Menu
 {
     public class TutorialMenu : MonoBehaviour
     {
+        private const string GameScene = "Game";
+
         [SerializeField] private Button _backButton;
         [SerializeField] private RectTransform _content;
         [SerializeField] private RectTransform _nonograms;
@@ -21,8 +24,14 @@ namespace Simple.Nonogram.Menu
         [Space]
         [SerializeField] private NonogramElement _nonogramElementPrefab;
 
+        private ICompositionRoot _root;
+        private IGameStateMachine _stateMachine;
+
         private void Awake()
         {
+            _root = DI.GetCompositionRoot(CompositionTag.Game);
+            _stateMachine = _root.Get<IGameStateMachine>();
+
             _backButton.OnClickAsObservable()
                 .Subscribe(_ => OnBackButtonClick())
                 .AddTo(this);
@@ -46,23 +55,19 @@ namespace Simple.Nonogram.Menu
         {
             var infos = GetNonogramInfos();
 
+            var gameInfo = new SceneInfo(GameScene, null);
+
             for (int i = 0; i < infos.Count; i++)
             {
                 var nonogram = Instantiate(_nonogramElementPrefab, _nonograms);
-                var j = i +1;
 
-                nonogram.Inject(infos[i].Name, infos[i].Size, () =>
-                {
-                    DebugExtension.LogError($"Nonogram {j}");
-                    //SceneManager.LoadScene(_levelSceneName, LoadSceneMode.Single);
-                });
+                nonogram.Inject(infos[i].Name, infos[i].Size, () => OnNonogramClick(gameInfo));
             }
         }
 
         private List<NonogramInfo> GetNonogramInfos()
         {
-            var root = DI.GetCompositionRoot(CompositionTag.Game);
-            var nonogramSettings = root.Get<NonogramSettings>();
+            var nonogramSettings = _root.Get<NonogramSettings>();
             var nonogramMeta = new NonogramMeta();
             var infos = nonogramMeta.Load(nonogramSettings.PathToTutorialFolder);
 
@@ -73,6 +78,11 @@ namespace Simple.Nonogram.Menu
         {
             var height = _nonograms.rect.height + _topOffset + _bottomOffset;
             _content.SetSizeWithCurrentAnchors(_content.rect.width, height);
+        }
+
+        private void OnNonogramClick(SceneInfo gameInfo)
+        {
+            _stateMachine.Enter<SceneLoaderState, SceneInfo>(gameInfo);
         }
 
         private void OnBackButtonClick()

@@ -4,7 +4,7 @@ namespace Simple.Nonogram.Infrastructure.Services.StateMachine
 {
     public class BootstrapState : IEnterState
     {
-        private const string InitialSceneName = "InitialScene";
+        private const string BootstrapSceneName = "Bootstrap";
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
@@ -21,7 +21,7 @@ namespace Simple.Nonogram.Infrastructure.Services.StateMachine
         {
             RegisterServices();
 
-            _sceneLoader.Load(InitialSceneName, EnterSceneLoaderState);
+            _sceneLoader.Load(BootstrapSceneName, OnSceneLoad);
         }
 
         public void Exit() { }
@@ -31,7 +31,7 @@ namespace Simple.Nonogram.Infrastructure.Services.StateMachine
             _root.Add<IGameStateMachine>(_stateMachine);
         }
 
-        private void EnterSceneLoaderState()
+        private void OnSceneLoad()
         {
             _stateMachine.Enter<MainMenuState>();
         }
