@@ -6,6 +6,7 @@ namespace Simple.Nonogram.Game
     public class Board : MonoBehaviour
     {
         [SerializeField] private RectTransform _rectTransform;
+        [SerializeField] private RectTransform _parentRectTransform;
         [SerializeField] private float xOffset;
         [SerializeField] private float yOffset;
 
@@ -41,10 +42,16 @@ namespace Simple.Nonogram.Game
 
         private void ResizeBoard()
         {
-            CellUtils.SetSizeWithCurrentAnchors(
-                _rectTransform,
-                _numberBoard.NumberCells.rect.width + xOffset * 2,
-                _numberBoard.NumberCells.rect.height + yOffset * 2);
+            var width = _numberBoard.NumberCells.rect.width + xOffset * 2;
+            var height = _numberBoard.NumberCells.rect.height + yOffset * 2;
+
+            ResizeBoard(_rectTransform, width, height);
+            ResizeBoard(_parentRectTransform, width, height);
+        }
+
+        private void ResizeBoard(RectTransform _rectTransform, float width, float height)
+        {
+            CellUtils.SetSizeWithCurrentAnchors(_rectTransform, width, height);
         }
     }
 }
