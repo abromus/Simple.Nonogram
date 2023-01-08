@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Simple.Nonogram.Infrastructure.Services.StateMachine
+namespace Simple.Nonogram.Infrastructure.Services
 {
     public class GameLoopState : IEnterState
     {

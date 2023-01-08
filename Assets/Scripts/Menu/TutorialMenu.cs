@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Simple.Nonogram.Extension;
 using Simple.Nonogram.Game;
-using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
-using Simple.Nonogram.Infrastructure.Services.StateMachine;
+using Simple.Nonogram.Infrastructure.Services;
 using Simple.Nonogram.Nonograms;
 using UniRx;
 using UnityEngine;

@@ -1,6 +1,4 @@
-﻿using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
-
-namespace Simple.Nonogram.Infrastructure.Services.StateMachine
+﻿namespace Simple.Nonogram.Infrastructure.Services
 {
     public class BootstrapState : IEnterState
     {

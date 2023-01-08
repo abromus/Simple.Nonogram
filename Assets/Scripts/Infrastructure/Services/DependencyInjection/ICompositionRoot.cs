@@ -1,4 +1,4 @@
-﻿namespace Simple.Nonogram.Infrastructure.Services.DependencyInjection
+﻿namespace Simple.Nonogram.Infrastructure.Services
 {
     public interface ICompositionRoot
     {

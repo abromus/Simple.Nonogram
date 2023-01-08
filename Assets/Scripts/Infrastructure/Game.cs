@@ -1,7 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using Simple.Nonogram.Game;
-using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
-using Simple.Nonogram.Infrastructure.Services.StateMachine;
+using Simple.Nonogram.Infrastructure.Services;
 
 namespace Simple.Nonogram.Infrastructure
 {

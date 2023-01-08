@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Simple.Nonogram.Infrastructure.Services.DependencyInjection
+namespace Simple.Nonogram.Infrastructure.Services
 {
     public class MonoInjector : MonoBehaviour
     {

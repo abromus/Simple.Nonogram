@@ -1,4 +1,4 @@
-﻿namespace Simple.Nonogram.Infrastructure.Delegates
+﻿namespace Simple.Nonogram.Infrastructure
 {
     public delegate void Block();
 

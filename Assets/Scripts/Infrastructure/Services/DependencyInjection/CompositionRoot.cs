@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Simple.Nonogram.Extension;
 
-namespace Simple.Nonogram.Infrastructure.Services.DependencyInjection
+namespace Simple.Nonogram.Infrastructure.Services
 {
     public sealed class CompositionRoot : ICompositionRoot, IDisposable
     {

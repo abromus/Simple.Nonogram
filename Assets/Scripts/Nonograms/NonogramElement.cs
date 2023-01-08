@@ -1,4 +1,4 @@
-﻿using Simple.Nonogram.Infrastructure.Delegates;
+﻿using Simple.Nonogram.Infrastructure;
 using TMPro;
 using UniRx;
 using UnityEngine;

@@ -1,15 +1,11 @@
-﻿using System.Threading;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Simple.Nonogram.Extension;
-using Simple.Nonogram.Infrastructure.Delegates;
 using UnityEngine.SceneManagement;
 
 namespace Simple.Nonogram.Infrastructure
 {
     public class SceneLoader
     {
-        private CancellationToken _subscription;
-
         public void Load(string name, Block onSuccess = null)
         {
             LoadScene(name, onSuccess);

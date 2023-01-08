@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Simple.Nonogram.Extension;
-using Simple.Nonogram.Infrastructure.Delegates;
 
-namespace Simple.Nonogram.Infrastructure.Services.DependencyInjection
+namespace Simple.Nonogram.Infrastructure.Services
 {
     public static class DI
     {

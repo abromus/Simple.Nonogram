@@ -1,4 +1,4 @@
-﻿namespace Simple.Nonogram.Infrastructure.Services.StateMachine
+﻿namespace Simple.Nonogram.Infrastructure.Services
 {
     public interface IGameStateMachine : IService
     {
