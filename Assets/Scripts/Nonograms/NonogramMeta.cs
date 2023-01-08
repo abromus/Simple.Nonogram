@@ -32,9 +32,8 @@ namespace Simple.Nonogram.Nonograms
             var nonogramFile = new NonogramFile();
             var nonogram = nonogramFile.LoadFile(file);
             var name = GetName(file);
-            var size = GetSize(nonogram);
 
-            var nonogramInfo = new NonogramInfo(file, name, size);
+            var nonogramInfo = new NonogramInfo(nonogram, name);
 
             return nonogramInfo;
         }
@@ -47,13 +46,6 @@ namespace Simple.Nonogram.Nonograms
         private string GetName(string file)
         {
             return Path.GetFileNameWithoutExtension(file);
-        }
-
-        private static Vector2Int GetSize(List<string> nonogram)
-        {
-            return nonogram == null
-                ? new Vector2Int(0, 0)
-                : new Vector2Int(nonogram[0].Length, nonogram.Count);
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Simple.Nonogram.Extension;
+using Simple.Nonogram.Game;
 using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
 using Simple.Nonogram.Infrastructure.Services.StateMachine;
 using Simple.Nonogram.Nonograms;
-using Simple.Nonogram.Settings;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,23 +26,27 @@ namespace Simple.Nonogram.Menu
 
         private ICompositionRoot _root;
         private IGameStateMachine _stateMachine;
+        private NonogramController _nonorgamController;
 
         private void Awake()
         {
             _root = DI.GetCompositionRoot(CompositionTag.Game);
             _stateMachine = _root.Get<IGameStateMachine>();
 
+            var world = _root.Get<IWorld>();
+            _nonorgamController = world.NonogramController;
+
             _backButton.OnClickAsObservable()
                 .Subscribe(_ => OnBackButtonClick())
                 .AddTo(this);
         }
 
-        private async void Start()
+        private void Start()
         {
-            await LoadNonograms();
+            LoadNonograms();
         }
 
-        private async UniTask LoadNonograms()
+        private async void LoadNonograms()
         {
             InstantiateNonograms();
 
@@ -53,35 +57,30 @@ namespace Simple.Nonogram.Menu
 
         private void InstantiateNonograms()
         {
-            var infos = GetNonogramInfos();
+            var nonograms = _nonorgamController.TutorialNonograms;
 
             var gameInfo = new SceneInfo(GameScene, null);
 
-            for (int i = 0; i < infos.Count; i++)
+            foreach (var nonogram in nonograms)
             {
-                var nonogram = Instantiate(_nonogramElementPrefab, _nonograms);
+                var nonogramView = Instantiate(_nonogramElementPrefab, _nonograms);
 
-                nonogram.Inject(infos[i].Name, infos[i].Size, () => OnNonogramClick(gameInfo));
+                nonogramView.Inject(nonogram.Name, nonogram.Size, () => OnNonogramClick(nonogram, gameInfo));
             }
         }
 
-        private List<NonogramInfo> GetNonogramInfos()
+        private async void ResizeContent()
         {
-            var nonogramSettings = _root.Get<NonogramSettings>();
-            var nonogramMeta = new NonogramMeta();
-            var infos = nonogramMeta.Load(nonogramSettings.PathToTutorialFolder);
+            await UniTask.WaitForEndOfFrame(this);
 
-            return infos;
-        }
-
-        private void ResizeContent()
-        {
             var height = _nonograms.rect.height + _topOffset + _bottomOffset;
             _content.SetSizeWithCurrentAnchors(_content.rect.width, height);
         }
 
-        private void OnNonogramClick(SceneInfo gameInfo)
+        private void OnNonogramClick(NonogramInfo nonogram, SceneInfo gameInfo)
         {
+            _nonorgamController.CurrentNonogram = nonogram;
+
             _stateMachine.Enter<SceneLoaderState, SceneInfo>(gameInfo);
         }
 

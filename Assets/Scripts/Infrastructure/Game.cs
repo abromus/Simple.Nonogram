@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using Simple.Nonogram.Game;
 using Simple.Nonogram.Infrastructure.Services.DependencyInjection;
 using Simple.Nonogram.Infrastructure.Services.StateMachine;
 
@@ -9,6 +10,7 @@ namespace Simple.Nonogram.Infrastructure
         private readonly MonoInjector _injector;
 
         private GameStateMachine _stateMachine;
+        private World _world;
         private bool _isInitialized;
 
         public GameStateMachine StateMachine => _stateMachine;
@@ -31,6 +33,7 @@ namespace Simple.Nonogram.Infrastructure
             await UniTask.WaitUntil(() => _injector.IsInitialized);
 
             _stateMachine = new GameStateMachine(new SceneLoader(), root);
+            _world = new World(root);
 
             DI.OnRootCreated -= OnRootCreated;
 

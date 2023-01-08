@@ -1,18 +1,21 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Simple.Nonogram.Nonograms
 {
     public struct NonogramInfo
     {
-        public string FullPath;
-        public string Name;
-        public Vector2Int Size;
+        public readonly List<string> Nonogram;
+        public readonly string Name;
+        public readonly Vector2Int Size;
 
-        public NonogramInfo(string fullPath, string name, Vector2Int size)
+        public NonogramInfo(List<string> nonogram, string name)
         {
-            FullPath = fullPath;
+            Nonogram = nonogram;
             Name = name;
-            Size = size;
+            Size = nonogram == null
+                ? new Vector2Int(0, 0)
+                : new Vector2Int(nonogram[0].Length, nonogram.Count);
         }
     }
 }
