@@ -1,4 +1,4 @@
-using Simple.Nonogram.Infrastructure.Services;
+using Simple.Nonogram.Core.Services;
 using UnityEngine;
 
 namespace Simple.Nonogram.Game

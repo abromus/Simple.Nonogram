@@ -1,7 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using Simple.Nonogram.Extension;
 using Simple.Nonogram.Game;
-using Simple.Nonogram.Infrastructure.Services;
+using Simple.Nonogram.Core.Services;
 using Simple.Nonogram.Nonograms;
 using UniRx;
 using UnityEngine;
