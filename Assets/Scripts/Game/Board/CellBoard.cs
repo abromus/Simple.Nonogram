@@ -1,4 +1,5 @@
-﻿using Simple.Nonogram.Nonograms;
+﻿using System.Collections.Generic;
+using Simple.Nonogram.Nonograms;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,12 +12,19 @@ namespace Simple.Nonogram.Game
         [SerializeField] private GridLayoutGroup _cellsGroup;
 
         private NonogramInfo _nonogram;
+        private List<Cell> _cells;
 
         public void SetData(NonogramInfo nonogram)
         {
             _nonogram = nonogram;
 
             Initialize();
+        }
+
+        public void ChangeCellType(CellType cellType)
+        {
+            foreach (var cell in _cells)
+                cell.ChangeCellType(cellType);
         }
 
         private void Initialize()
@@ -28,7 +36,7 @@ namespace Simple.Nonogram.Game
 
         private void InstantiateCells(int width, int height)
         {
-            CellUtils.InstantiateCells(_cellPrefab, _cellsContainer, width, height);
+            _cells = CellUtils.InstantiateCells(_cellPrefab, _cellsContainer, width, height);
         }
 
         private void SetCellSize()

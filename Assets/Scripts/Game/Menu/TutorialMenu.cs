@@ -1,13 +1,12 @@
 ﻿using Cysharp.Threading.Tasks;
-using Simple.Nonogram.Extension;
-using Simple.Nonogram.Game;
 using Simple.Nonogram.Core.Services;
+using Simple.Nonogram.Extension;
 using Simple.Nonogram.Nonograms;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Simple.Nonogram.Menu
+namespace Simple.Nonogram.Game
 {
     public class TutorialMenu : MonoBehaviour
     {

@@ -21,7 +21,7 @@ namespace Simple.Nonogram.Nonograms
 
         private void Awake()
         {
-            Button.OnClickAsObservable()
+            _button.OnClickAsObservable()
                 .Subscribe(_ => _block.SafeInvoke())
                 .AddTo(this);
         }

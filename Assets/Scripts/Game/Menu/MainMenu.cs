@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Simple.Nonogram.Menu
+namespace Simple.Nonogram.Game
 {
     public class MainMenu : MonoBehaviour
     {

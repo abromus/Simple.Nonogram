@@ -19,25 +19,20 @@ namespace Simple.Nonogram.Game
         private IWorld _world;
         private NonogramController _nonogramController;
 
-        private void Awake()
+        public void SetData(NonogramController nonogramController)
         {
-            _root = DI.GetCompositionRoot(CompositionTag.Game);
-            _world = _root.Get<IWorld>();
-            _nonogramController = _world.NonogramController;
-        }
+            _nonogramController = nonogramController;
 
-        private void Start()
-        {
-            SetData();
-
-            ResizeBoard();
-        }
-
-        private void SetData()
-        {
             _cellBoard.SetData(_nonogramController.CurrentNonogram);
             _numberBoard.SetData(_nonogramController.CurrentNonogram);
             _pictureBoard.SetData(_numberBoard.LeftNumberCells.rect.width, _numberBoard.TopNumberCells.rect.height);
+            
+            ResizeBoard();
+        }
+
+        public void ChangeCellType(CellType cellType)
+        {
+            _cellBoard.ChangeCellType(cellType);
         }
 
         private void ResizeBoard()
