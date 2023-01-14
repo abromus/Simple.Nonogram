@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Simple.Nonogram.Core.Services;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Simple.Nonogram.Game
@@ -12,7 +13,14 @@ namespace Simple.Nonogram.Game
 
         [SerializeField] private TutorialMenu _tutorialMenuPrefab;
 
+        private ICompositionRoot _root;
+
         private TutorialMenu _tutorialMenu;
+
+        public void SetData(ICompositionRoot root)
+        {
+            _root = root;
+        }
 
         private void Awake()
         {
@@ -38,6 +46,7 @@ namespace Simple.Nonogram.Game
                 _tutorialMenu = Instantiate(_tutorialMenuPrefab, transform.parent);
 
             _tutorialMenu.gameObject.SetActive(true);
+            _tutorialMenu.SetData(_root);
         }
     }
 }

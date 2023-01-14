@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: NonogramSettings
   m_EditorClassIdentifier: 
   _pathToTutorialFolder: /NonogramFiles/Tutorial
+  _pathToGenerationFolder: /NonogramFiles/Generation

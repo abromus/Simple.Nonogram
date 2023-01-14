@@ -25,6 +25,12 @@ namespace Simple.Nonogram.Game
             _cellType = cellType;
         }
 
+        public string GetState()
+        {
+            var markedSprite = GetSprite(CellType.Marked);
+            return _image.sprite == markedSprite ? "1" : "0";
+        }
+
         private void OnButtonCLick()
         {
             ChangeSprite();

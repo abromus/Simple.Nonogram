@@ -14,7 +14,7 @@ namespace Simple.Nonogram.Game
         private IWorld _world;
         private NonogramController _nonogramController;
 
-        private CompositeDisposable subscription;
+        private CompositeDisposable _subscription;
 
         private void Awake()
         {
@@ -22,8 +22,8 @@ namespace Simple.Nonogram.Game
             _world = _root.Get<IWorld>();
             _nonogramController = _world.NonogramController;
 
-            subscription = new CompositeDisposable();
-            _toolbar.CellTypeChanged.Subscribe(cellType => OnCellTypeChanged(cellType)).AddTo(subscription);
+            _subscription = new CompositeDisposable();
+            _toolbar.CellTypeChanged.Subscribe(cellType => OnCellTypeChanged(cellType)).AddTo(_subscription);
         }
 
         private void Start()
@@ -33,7 +33,7 @@ namespace Simple.Nonogram.Game
 
         private void OnDestroy()
         {
-            subscription = subscription.SafeUnsubscribe();
+            _subscription = _subscription.SafeUnsubscribe();
         }
 
         private void SetData()

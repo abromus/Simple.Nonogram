@@ -12,6 +12,14 @@ namespace Simple.Nonogram.Nonograms
             return string.IsNullOrEmpty(path) ? null : TryLoadFile(path);
         }
 
+        public void SafeFile(string path, List<string> file)
+        {
+            if (path == null || file == null)
+                return;
+
+            SafeFileAsync(path, file);
+        }
+
         private List<string> TryLoadFile(string path)
         {
             var lines = new List<string>();
@@ -22,7 +30,7 @@ namespace Simple.Nonogram.Nonograms
 
                 do
                 {
-                    lines.Add(stream.ReadLine());
+                    lines.Add(stream.ReadLineAsync().Result);
                 } while (!stream.EndOfStream);
             }
             catch (Exception exception)
@@ -31,6 +39,21 @@ namespace Simple.Nonogram.Nonograms
             }
 
             return lines;
+        }
+
+        private async void SafeFileAsync(string path, List<string> file)
+        {
+            try
+            {
+                using StreamWriter writer = new StreamWriter(path, false);
+
+                foreach (var line in file)
+                    await writer.WriteLineAsync(line);
+            }
+            catch (Exception exception)
+            {
+                DebugExtension.LogError($"NonogramFile.SafeFileAsync: {exception.Message}.");
+            }
         }
     }
 }

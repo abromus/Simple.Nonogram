@@ -25,9 +25,9 @@ namespace Simple.Nonogram.Game
         private IGameStateMachine _stateMachine;
         private NonogramController _nonorgamController;
 
-        private void Awake()
+        public void SetData(ICompositionRoot root)
         {
-            _root = DI.GetCompositionRoot(CompositionTag.Game);
+            _root = root;
             _stateMachine = _root.Get<IGameStateMachine>();
 
             var world = _root.Get<IWorld>();
@@ -36,10 +36,7 @@ namespace Simple.Nonogram.Game
             _backButton.OnClickAsObservable()
                 .Subscribe(_ => OnBackButtonClick())
                 .AddTo(this);
-        }
 
-        private void Start()
-        {
             LoadNonograms();
         }
 
