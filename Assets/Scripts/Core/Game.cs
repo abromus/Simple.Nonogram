@@ -19,7 +19,7 @@ namespace Simple.Nonogram.Core
         {
             _injector = injector;
 
-            DI.OnRootCreated += OnRootCreated;
+            DI.RootCreated += OnRootCreated;
         }
 
         public void CreateCompositionRoot()
@@ -34,7 +34,7 @@ namespace Simple.Nonogram.Core
             _stateMachine = new GameStateMachine(new SceneLoader(), root);
             _world = new World(root);
 
-            DI.OnRootCreated -= OnRootCreated;
+            DI.RootCreated -= OnRootCreated;
 
             _isInitialized = true;
         }

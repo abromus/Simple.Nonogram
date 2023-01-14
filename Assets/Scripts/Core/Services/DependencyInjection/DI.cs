@@ -11,7 +11,7 @@ namespace Simple.Nonogram.Core.Services
         private static string LastRootTag;
         private static CompositionRoot LastRoot;
 
-        public static event Block<CompositionRoot> OnRootCreated;
+        public static event Block<CompositionRoot> RootCreated;
 
         public static CompositionRoot CreateCompositionRoot(string compositionTag)
         {
@@ -25,7 +25,7 @@ namespace Simple.Nonogram.Core.Services
                 var root = new CompositionRoot(compositionTag);
                 Roots[compositionTag] = root;
 
-                OnRootCreated?.Invoke(root);
+                RootCreated?.Invoke(root);
 
                 return root;
             }

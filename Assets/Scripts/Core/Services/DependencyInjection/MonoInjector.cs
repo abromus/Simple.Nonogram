@@ -16,12 +16,12 @@ namespace Simple.Nonogram.Core.Services
 
         private void Awake()
         {
-            DI.OnRootCreated += OnRootCreated;
+            DI.RootCreated += OnRootCreated;
         }
 
         private void OnDestroy()
         {
-            DI.OnRootCreated -= OnRootCreated;
+            DI.RootCreated -= OnRootCreated;
         }
 
         private void OnRootCreated(CompositionRoot root)
