@@ -9,16 +9,12 @@ namespace Simple.Nonogram.Game
         [SerializeField] private NumberCellsGroup _topGroup;
         [SerializeField] private NumberCellsGroup _leftGroup;
 
-        private NonogramInfo _nonogram;
-
         public RectTransform NumberCells => _numberCellsContainer;
         public RectTransform TopNumberCells => _topGroup.CellsContainer;
         public RectTransform LeftNumberCells => _leftGroup.CellsContainer;
 
         public void SetData(NonogramInfo nonogram)
         {
-            _nonogram = nonogram;
-
             _topGroup.SetData(nonogram, true);
             _leftGroup.SetData(nonogram, false);
 

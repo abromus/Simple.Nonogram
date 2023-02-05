@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Simple.Nonogram.Nonograms
 {
-    public struct NonogramInfo
+    public readonly struct NonogramInfo
     {
         public readonly List<string> Nonogram;
         public readonly string Name;

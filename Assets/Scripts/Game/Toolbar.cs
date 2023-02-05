@@ -15,8 +15,9 @@ namespace Simple.Nonogram.Game
         [SerializeField] private Button _generationButton;
 
         private CellType _cellType = CellType.Marked;
-        private Subject<CellType> _cellTypeChanged = new Subject<CellType>();
-        private Subject<string> _generated = new Subject<string>();
+
+        private readonly Subject<CellType> _cellTypeChanged = new Subject<CellType>();
+        private readonly Subject<string> _generated = new Subject<string>();
 
         public IObservable<CellType> CellTypeChanged => _cellTypeChanged;
         public IObservable<string> Generated => _generated;

@@ -44,9 +44,7 @@ namespace Simple.Nonogram.Core.Services
 
             return _objects.TryGetValue(type, out object service)
                 ? service as TService
-                : _dependencyRoot != null
-                    ? _dependencyRoot.Get<TService>()
-                    : null;
+                : _dependencyRoot?.Get<TService>();
         }
 
         public void SetDependency(CompositionRoot dependencyRoot)
@@ -119,8 +117,7 @@ namespace Simple.Nonogram.Core.Services
             if (Disposed)
                 return;
 
-            if (_childs == null)
-                _childs = new List<CompositionRoot>();
+            _childs ??= new List<CompositionRoot>();
 
             _childs.Add(child);
         }

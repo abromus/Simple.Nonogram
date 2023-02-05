@@ -4,7 +4,7 @@
     {
         private const string MainMenuScene = "MainMenu";
 
-        private GameStateMachine _stateMachine;
+        private readonly GameStateMachine _stateMachine;
 
         public MainMenuState(GameStateMachine gameStateMachine)
         {

@@ -30,7 +30,6 @@ namespace Simple.Nonogram.UI
         private float _minBevelRadians;
 
         private UV _uv;
-        private VertexHelper _vertexHelper;
 
         private readonly Sprite _overrideSprite;
         private readonly float _eventAlphaThreshold = 1f;
@@ -73,8 +72,6 @@ namespace Simple.Nonogram.UI
         {
             if (_points == null || _points.Length == 0)
                 return;
-
-            _vertexHelper = vertexHelper;
 
             vertexHelper.Clear();
 

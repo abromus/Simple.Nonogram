@@ -12,7 +12,8 @@ namespace Simple.Nonogram.Game
         [SerializeField] private Button _generationButton;
 
         private CompositeDisposable _subscription;
-        private Subject<GenerationNonogramInfo> _created = new Subject<GenerationNonogramInfo>();
+
+        private readonly Subject<GenerationNonogramInfo> _created = new Subject<GenerationNonogramInfo>();
 
         public IObservable<GenerationNonogramInfo> Created => _created;
 

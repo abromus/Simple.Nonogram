@@ -19,9 +19,15 @@ namespace Simple.Nonogram.Game
         [SerializeField] private GuideAssistant _guideAssistant;
         [SerializeField] private PictureBoard _pictureBoard;
 
-        private ICompositionRoot _root;
-        private IWorld _world;
         private NonogramController _nonogramController;
+
+        private readonly ICompositionRoot _root;
+        private readonly IWorld _world;
+
+        public Board(NonogramController nonogramController)
+        {
+            _nonogramController = nonogramController;
+        }
 
         public void SetData(NonogramController nonogramController)
         {

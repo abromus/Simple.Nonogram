@@ -6,9 +6,10 @@ namespace Simple.Nonogram.Game
 {
     public class NonogramController
     {
-        private NonogramSettings _nonogramSettings;
-        private NonogramMeta _nonogramMeta;
         private List<NonogramInfo> _tutorialNonograms;
+
+        private readonly NonogramSettings _nonogramSettings;
+        private readonly NonogramMeta _nonogramMeta;
 
         public List<NonogramInfo> TutorialNonograms => _tutorialNonograms;
 

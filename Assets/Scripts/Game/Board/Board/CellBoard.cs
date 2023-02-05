@@ -15,8 +15,9 @@ namespace Simple.Nonogram.Game
 
         private NonogramInfo _nonogram;
         private List<Cell> _cells;
-        private Subject<Cell> _onClick = new Subject<Cell>();
-        private Subject<Vector2> _onPointerEnter = new Subject<Vector2>();
+
+        private readonly Subject<Cell> _onClick = new Subject<Cell>();
+        private readonly Subject<Vector2> _onPointerEnter = new Subject<Vector2>();
 
         public IObservable<Cell> OnClick => _onClick;
         public IObservable<Vector2> OnPointerEnter => _onPointerEnter;

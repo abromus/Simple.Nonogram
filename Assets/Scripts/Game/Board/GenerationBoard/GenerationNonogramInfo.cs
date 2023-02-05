@@ -1,6 +1,6 @@
 ﻿namespace Simple.Nonogram.Game
 {
-    public struct GenerationNonogramInfo
+    public readonly struct GenerationNonogramInfo
     {
         public readonly int Width;
         public readonly int Height;
