@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Simple.Nonogram.Extension
 {
@@ -14,6 +15,17 @@ namespace Simple.Nonogram.Extension
             rectTransform.sizeDelta = sizeDelta;
 
             return rectTransform;
+        }
+
+        public static void CheckCurrentVertCount(this VertexHelper vertexHelper)
+        {
+            var maxCurrentVertCount = 64000;
+
+            if (vertexHelper.currentVertCount <= maxCurrentVertCount)
+                return;
+
+            Debug.LogError($"Max Verticies size is {maxCurrentVertCount}, current mesh verticies count is [{vertexHelper.currentVertCount}]. Cannot Draw");
+            vertexHelper.Clear();
         }
 
         private static Vector2 GetParentSize(RectTransform rectTransform)
