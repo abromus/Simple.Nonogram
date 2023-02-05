@@ -30,6 +30,7 @@ namespace Simple.Nonogram.UI
         private float _minBevelRadians;
 
         private UV _uv;
+        private VertexHelper _vertexHelper;
 
         private readonly Sprite _overrideSprite;
         private readonly float _eventAlphaThreshold = 1f;
@@ -59,10 +60,21 @@ namespace Simple.Nonogram.UI
                 _points = new Vector2[1];
         }
 
+        public void SetPoints(Vector2[] points)
+        {
+            _points = points;
+
+            SetAllDirty();
+
+            Rebuild(CanvasUpdate.Layout);
+        }
+
         protected override void OnPopulateMesh(VertexHelper vertexHelper)
         {
             if (_points == null || _points.Length == 0)
                 return;
+
+            _vertexHelper = vertexHelper;
 
             vertexHelper.Clear();
 

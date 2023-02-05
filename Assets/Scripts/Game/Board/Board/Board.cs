@@ -1,4 +1,6 @@
+using Cysharp.Threading.Tasks;
 using Simple.Nonogram.Core.Services;
+using UniRx;
 using UnityEngine;
 
 namespace Simple.Nonogram.Game
@@ -12,7 +14,9 @@ namespace Simple.Nonogram.Game
 
         [Space]
         [SerializeField] private CellBoard _cellBoard;
+        [SerializeField] private Verifier _verifier;
         [SerializeField] private NumberBoard _numberBoard;
+        [SerializeField] private GuideAssistant _guideAssistant;
         [SerializeField] private PictureBoard _pictureBoard;
 
         private ICompositionRoot _root;
@@ -24,10 +28,15 @@ namespace Simple.Nonogram.Game
             _nonogramController = nonogramController;
 
             _cellBoard.SetData(_nonogramController.CurrentNonogram);
+            //_verifier.SetData();
             _numberBoard.SetData(_nonogramController.CurrentNonogram);
+            _guideAssistant.SetData(_cellBoard.Rect, _numberBoard.LeftNumberCells, _numberBoard.TopNumberCells, _cellBoard.CellSize);
             _pictureBoard.SetData(_numberBoard.LeftNumberCells.rect.width, _numberBoard.TopNumberCells.rect.height);
             
             ResizeBoard();
+
+            _cellBoard.OnClick.Subscribe(_guideAssistant.DrawGuides).AddTo(this);
+            _cellBoard.OnPointerEnter.Subscribe(_guideAssistant.DrawGuides).AddTo(this);
         }
 
         public void ChangeCellType(CellType cellType)

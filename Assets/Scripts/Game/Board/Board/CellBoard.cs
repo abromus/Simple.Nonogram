@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Simple.Nonogram.Nonograms;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +15,14 @@ namespace Simple.Nonogram.Game
 
         private NonogramInfo _nonogram;
         private List<Cell> _cells;
+        private Subject<Vector2> _onClick = new Subject<Vector2>();
+        private Subject<Vector2> _onPointerEnter = new Subject<Vector2>();
+
+        public IObservable<Vector2> OnClick => _onClick;
+        public IObservable<Vector2> OnPointerEnter => _onPointerEnter;
+
+        public Vector2 CellSize => _cellPrefab.Size;
+        public RectTransform Rect => _cellsContainer;
 
         public void SetData(NonogramInfo nonogram)
         {
@@ -37,6 +47,12 @@ namespace Simple.Nonogram.Game
         private void InstantiateCells(int width, int height)
         {
             _cells = CellUtils.InstantiateCells(_cellPrefab, _cellsContainer, width, height);
+
+            foreach (var cell in _cells)
+            {
+                cell.OnClick.Subscribe(_onClick.OnNext);
+                cell.OnPointerEnter.Subscribe(_onPointerEnter.OnNext);
+            }
         }
 
         private void SetCellSize()

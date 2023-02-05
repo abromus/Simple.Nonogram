@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,12 +15,18 @@ namespace Simple.Nonogram.Game
         [SerializeField] private List<CellInfo> _images;
 
         private CellType _cellType;
+        private Subject<Vector2> _onClick = new Subject<Vector2>();
+        private Subject<Vector2> _onPointerEnter = new Subject<Vector2>();
+
+        public IObservable<Vector2> OnClick => _onClick;
+        public IObservable<Vector2> OnPointerEnter => _onPointerEnter;
 
         public Vector2 Size => _rectTransform.rect.size;
 
         private void Awake()
         {
-            _button.onClick.AddListener(OnButtonCLick);
+            _button.onClick.AddListener(OnButtonClick);
+            _button.OnPointerEnterAsObservable().Subscribe(_ => OnButtonPointerEnter()).AddTo(this);
         }
 
         public void ChangeCellType(CellType cellType)
@@ -31,9 +40,16 @@ namespace Simple.Nonogram.Game
             return _image.sprite == markedSprite ? "1" : "0";
         }
 
-        private void OnButtonCLick()
+        private void OnButtonClick()
         {
             ChangeSprite();
+
+            _onClick.OnNext(_rectTransform.anchoredPosition);
+        }
+
+        private void OnButtonPointerEnter()
+        {
+            _onPointerEnter.OnNext(_rectTransform.anchoredPosition);
         }
 
         private void ChangeSprite()
