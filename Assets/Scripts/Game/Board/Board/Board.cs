@@ -28,14 +28,18 @@ namespace Simple.Nonogram.Game
             _nonogramController = nonogramController;
 
             _cellBoard.SetData(_nonogramController.CurrentNonogram);
-            //_verifier.SetData();
+            _verifier.SetData(_nonogramController.CurrentNonogram);
             _numberBoard.SetData(_nonogramController.CurrentNonogram);
             _guideAssistant.SetData(_cellBoard.Rect, _numberBoard.LeftNumberCells, _numberBoard.TopNumberCells, _cellBoard.CellSize);
             _pictureBoard.SetData(_numberBoard.LeftNumberCells.rect.width, _numberBoard.TopNumberCells.rect.height);
             
             ResizeBoard();
 
-            _cellBoard.OnClick.Subscribe(_guideAssistant.DrawGuides).AddTo(this);
+            _cellBoard.OnClick.Subscribe(point =>
+            {
+                _guideAssistant.DrawGuides(point.RectTransform.anchoredPosition);
+                _verifier.CheckCell(point);
+            }).AddTo(this);
             _cellBoard.OnPointerEnter.Subscribe(_guideAssistant.DrawGuides).AddTo(this);
         }
 

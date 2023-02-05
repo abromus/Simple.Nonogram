@@ -11,17 +11,22 @@ namespace Simple.Nonogram.Game
     {
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Button _button;
+        [SerializeField] private Image _cellImage;
         [SerializeField] private Image _image;
         [SerializeField] private List<CellInfo> _images;
 
         private CellType _cellType;
-        private Subject<Vector2> _onClick = new Subject<Vector2>();
+        private CellType _cellClickedType;
+        private Subject<Cell> _onClick = new Subject<Cell>();
         private Subject<Vector2> _onPointerEnter = new Subject<Vector2>();
 
-        public IObservable<Vector2> OnClick => _onClick;
+        public IObservable<Cell> OnClick => _onClick;
         public IObservable<Vector2> OnPointerEnter => _onPointerEnter;
 
+        public RectTransform RectTransform => _rectTransform;
         public Vector2 Size => _rectTransform.rect.size;
+        public CellType CellType => _cellType;
+        public Image Image => _cellImage;
 
         private void Awake()
         {
@@ -31,7 +36,7 @@ namespace Simple.Nonogram.Game
 
         public void ChangeCellType(CellType cellType)
         {
-            _cellType = cellType;
+            _cellClickedType = cellType;
         }
 
         public string GetState()
@@ -44,7 +49,7 @@ namespace Simple.Nonogram.Game
         {
             ChangeSprite();
 
-            _onClick.OnNext(_rectTransform.anchoredPosition);
+            _onClick.OnNext(this);
         }
 
         private void OnButtonPointerEnter()
@@ -54,9 +59,10 @@ namespace Simple.Nonogram.Game
 
         private void ChangeSprite()
         {
-            var sprite = GetSprite(_cellType);
+            var sprite = GetSprite(_cellClickedType);
 
             _image.sprite = _image.sprite != sprite ? sprite : null;
+            _cellType = _cellType == _cellClickedType ? CellType.None : _cellClickedType;
         }
 
         private Sprite GetSprite(CellType cellType)

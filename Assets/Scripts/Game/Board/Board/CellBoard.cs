@@ -15,10 +15,10 @@ namespace Simple.Nonogram.Game
 
         private NonogramInfo _nonogram;
         private List<Cell> _cells;
-        private Subject<Vector2> _onClick = new Subject<Vector2>();
+        private Subject<Cell> _onClick = new Subject<Cell>();
         private Subject<Vector2> _onPointerEnter = new Subject<Vector2>();
 
-        public IObservable<Vector2> OnClick => _onClick;
+        public IObservable<Cell> OnClick => _onClick;
         public IObservable<Vector2> OnPointerEnter => _onPointerEnter;
 
         public Vector2 CellSize => _cellPrefab.Size;

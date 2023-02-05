@@ -131,6 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 7908989777284141367}
   _button: {fileID: -8691290854884124360}
+  _cellImage: {fileID: 7908989777284141366}
   _image: {fileID: 7908989776312975474}
   _images:
   - Type: 1
@@ -198,8 +199,8 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
-    m_PressedColor: {r: 0.33641636, g: 0.30566037, b: 1, a: 1}
-    m_SelectedColor: {r: 0.3372549, g: 0.30588236, b: 1, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
